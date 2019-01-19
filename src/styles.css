@@ -1,0 +1,23 @@
+@import '../node_modules/normalize.css/normalize.css';
+
+html, body {
+  font-size: 18px;
+  height: 100%;
+  width: 100%;
+}
+
+#app {
+  width: 1000px;
+  height: 100%;
+  margin: auto;
+}
+
+#content {
+  border-style: solid;
+  border-width: 1px 1px 0 1px;
+  border-radius: 7px 7px 0 0;
+  height: calc(100% - 72px);
+  margin-top: 10px;
+  padding: 10px;
+  overflow: auto;
+}

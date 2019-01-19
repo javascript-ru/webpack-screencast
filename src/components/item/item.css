@@ -1,0 +1,26 @@
+.item {
+  height: 200px;
+  width: 145px;
+  padding: 10px;
+  margin: 10px;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.item > img {
+  height: 120px;
+  width: 120px;
+  margin-bottom: 15px;
+}
+
+.item > a {
+  text-decoration: underline;
+  color: black;
+}
+
+.item h2, h3 {
+  margin: 0;
+}

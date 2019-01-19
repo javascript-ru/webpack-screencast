@@ -1,0 +1,7 @@
+.image {
+  padding: 10px;
+  margin: auto;
+  height: 350px;
+  width: 350px;
+  display: flex;
+}
