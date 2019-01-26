@@ -34,8 +34,13 @@
     "webpack-dev-server": "3.1.14"
   },
   "dependencies": {
+    "copy-webpack-plugin": "^4.6.0",
     "local-web-server": "2.6.1",
     "normalize.css": "8.0.1",
-    "riot-route": "3.1.4"
+    "postcss-loader": "^3.0.0",
+    "postcss-preset-env": "^6.5.0",
+    "riot-route": "3.1.4",
+    "webpack-assets-manifest": "^3.1.1",
+    "webpack-notifier": "^1.7.0"
   }
 }

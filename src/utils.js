@@ -6,6 +6,7 @@ const clearBlock = (block) => {
   }
 };
 
+// TODO: async/await
 export const renderPage = (page) => (...routeParams) => import(`./pages/${page}/${page}`)
   .then(({default: renderPage}) => {
     clearBlock(root);
