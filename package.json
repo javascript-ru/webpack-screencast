@@ -6,7 +6,8 @@
     "start": "npm run dev",
     "serve": "cd dist && ws --spa index.html",
     "build": "webpack --mode production --progress -p",
-    "dev": "webpack-dev-server --hot --inline --mode development --progress --watch --open"
+    "dev": "webpack-dev-server --hot --inline --mode development --progress --watch",
+    "watch": "nodemon --exec npm run dev"
   },
   "repository": {
     "type": "git",
@@ -24,23 +25,24 @@
     "@babel/preset-env": "7.2.3",
     "babel-loader": "8.0.5",
     "clean-webpack-plugin": "1.0.0",
+    "copy-webpack-plugin": "4.6.0",
     "css-loader": "2.1.0",
     "file-loader": "3.0.1",
     "html-webpack-plugin": "3.2.0",
+    "nodemon": "1.18.9",
+    "postcss-loader": "3.0.0",
+    "postcss-preset-env": "6.5.0",
     "style-loader": "0.23.1",
     "url-loader": "1.1.2",
     "webpack": "4.28.4",
+    "webpack-assets-manifest": "3.1.1",
     "webpack-cli": "3.2.1",
-    "webpack-dev-server": "3.1.14"
+    "webpack-dev-server": "3.1.14",
+    "webpack-notifier": "1.7.0"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^4.6.0",
+    "@babel/polyfill": "7.2.5",
     "local-web-server": "2.6.1",
-    "normalize.css": "8.0.1",
-    "postcss-loader": "^3.0.0",
-    "postcss-preset-env": "^6.5.0",
-    "riot-route": "3.1.4",
-    "webpack-assets-manifest": "^3.1.1",
-    "webpack-notifier": "^1.7.0"
+    "normalize.css": "8.0.1"
   }
 }

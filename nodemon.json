@@ -1,0 +1,11 @@
+{
+  "restartable": "restart",
+  "ignore": [
+    ".git",
+    "node_modules"
+  ],
+  "verbose": true,
+  "watch": [
+    "webpack.config.js"
+  ]
+}

@@ -1,9 +1,11 @@
 import './menu.css';
+import {handleLinkClick} from '../../utils';
 
 const items = [
   {route: '/', label: 'Главная'},
   {route: '/list', label: 'Каталог'}
 ];
+
 
 export const Menu = () => {
   const divElement = document.createElement('div');
@@ -11,6 +13,7 @@ export const Menu = () => {
   items.forEach(({route, label}) => {
     const linkElement = document.createElement('a');
     linkElement.href = route;
+    linkElement.onclick = handleLinkClick(route);
     linkElement.innerText = label;
     divElement.appendChild(linkElement);
   });

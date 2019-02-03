@@ -4,14 +4,14 @@
   border-radius: 0 0 7px 7px;
   height: 20px;
   padding: 10px;
-}
 
-#menu a {
-  color: black;
-  margin-right: 15px;
-  text-decoration: none;
-}
+  & a {
+    color: black;
+    margin-right: 15px;
+    text-decoration: none;
 
-#menu a:hover {
-  text-decoration: underline;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

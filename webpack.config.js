@@ -1,30 +1,28 @@
 // Multi-entry сборка отдельно
-// TODO: Long-term caching отдельно
-//    const ManifestPlugin = require('webpack-assets-manifest'); // or webpack-manifest-plugin'
-
+// Long-term caching отдельно
+// MiniCssExtractPlugin отдельно
 
 // +DevServer
 // +HtmlWebpackPlugin
 // +CleanWebpackPlugin
 // +dynamic imports
+// +webpack-assets-manifest
 
 // TODO: динамический require с переменной (через контекст),
 //  убирание лишнего через комменты https://webpack.js.org/api/module-methods/#import-
 //  для сторонних модулей (moment.js): IgnorePlugin c функцией проверки контекста
-// TODO: rerun webpack when config changes
 
-const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
+const postcssPresetEnv = require('postcss-preset-env');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
-
-const postcssPresetEnv = require('postcss-preset-env');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const AssetsManifestPlugin = require('webpack-assets-manifest');
 
 const nodeEnv = process.env.NODE_ENV; // development || production || test
 const lang = process.env.LANG || 'en';
-
 
 function resolve(relPath) {
   return path.resolve(__dirname, relPath);
@@ -57,32 +55,21 @@ module.exports = {
     new WebpackNotifierPlugin(),
     new HtmlWebpackPlugin({
       template: resolve('src/template.html'),
-      filename: resolve('dist/index.html')
+      filename: resolve('dist/index.html'),
+      chunksSortMode: 'none' // https://github.com/facebook/create-react-app/issues/4667
     }),
     new CleanWebpackPlugin(resolve('dist')),
-
-    // TODO: товары не элемент дизайна, а отдельно
-    new CopyWebpackPlugin([{ from: 'assets' }]),
-
+    new CopyWebpackPlugin([{from: 'assets', to: resolve('dist/assets')}]),
     new webpack.DefinePlugin({
       LANG: JSON.stringify(lang),
     }),
-
+    new AssetsManifestPlugin()
   ],
-
-
-/*
-  plugins: [
-    new ManifestPlugin({
-      output: '../build/manifest.json'
-    })
-  ]
-
-*/
-
-
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js'],
+    alias: {
+      lib: resolve('lib')
+    }
   },
   module:  {
     rules: [
@@ -115,7 +102,6 @@ module.exports = {
         }]
       },
       {
-        // todo: MiniCssExtractPlugin.loader отдельным выпуском?
         test: /\.css$/,
         use:  [
           'style-loader',
@@ -132,7 +118,6 @@ module.exports = {
               plugins: () => [
                 postcssPresetEnv({
                   features: {
-                    // TODO: add use example to CSS
                     'nesting-rules': true
                   }
                 })

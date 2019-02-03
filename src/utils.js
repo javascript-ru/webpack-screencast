@@ -1,3 +1,5 @@
+import {router} from 'lib/router';
+
 const root = document.querySelector('#content');
 
 const clearBlock = (block) => {
@@ -6,10 +8,16 @@ const clearBlock = (block) => {
   }
 };
 
-// TODO: async/await
-export const renderPage = (page) => (...routeParams) => import(`./pages/${page}/${page}`)
-  .then(({default: renderPage}) => {
-    clearBlock(root);
-    const renderedPage = renderPage(...routeParams);
-    root.appendChild(renderedPage);
-  });
+const loadChunkAndRender = async (page, ...routeParams) => {
+  const {default: renderPage} = await import(`./pages/${page}/${page}`);
+  clearBlock(root);
+  const renderedPage = await renderPage(...routeParams);
+  root.appendChild(renderedPage);
+};
+
+export const handleLinkClick = (path) => (e) => {
+  e.preventDefault();
+  router.navigate(path);
+};
+
+export const renderPage = (page) => (...routeParams) => loadChunkAndRender(page, ...routeParams);

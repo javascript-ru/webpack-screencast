@@ -1,8 +1,9 @@
 import './main.css';
 import {Banner, Title, ItemsList} from '../../components';
-import items from '../../assets/items.json';
 
-export default () => {
+export default async () => {
+  const requestedItems = await fetch('/assets/items.json');
+  const items = await requestedItems.json();
   const divElement = document.createElement('div');
 
   divElement.id = 'main';
