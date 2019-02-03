@@ -2,13 +2,17 @@ import '@babel/polyfill';
 import './styles.css';
 import {Menu} from './components';
 import {renderPage} from './utils';
+
+// TODO: make less components
+
+// we're using export default?
 import {router} from 'lib/router';
 
 document.querySelector('#menu').appendChild(Menu());
 
 router
-  .watch(/item\/(.*)/, renderPage('item'))
-  .watch(/list/, renderPage('list'))
-  .watch('/', renderPage('main'))
-  .fallback(renderPage('main'))
+  .addRoute(/item\/(.*)/, renderPage('item'))
+  .addRoute(/list/, renderPage('list'))
+  .addRoute('/', renderPage('main'))
+  .setFallback(renderPage('main'))
   .listen();

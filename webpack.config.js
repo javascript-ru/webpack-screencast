@@ -28,104 +28,116 @@ function resolve(relPath) {
   return path.resolve(__dirname, relPath);
 }
 
-module.exports = {
-  entry:     {
-    // default name is main also
-    main: resolve('src/main.js')
-  },
-  output:    {
-    path:          resolve('dist'),
-    publicPath:    '/',
-    filename:      '[name].js',
-    chunkFilename: 'chunk.[name].js'
-  },
-  devServer: {
-    port:               8000,
-    host:               'localhost',
-    publicPath:         '/',
-    historyApiFallback: true,
-    contentBase:        resolve('dist'),
-    writeToDisk:        true
-  },
+function extHash(name, ext, hash = '[hash]') {
+  return nodeEnv === 'development' ? `${name}.${ext}?${hash}` : `${name}.${hash}.${ext}`;
+}
 
-  // not eval to read compiled source in the screencast
-  devtool: nodeEnv === 'development' ? 'inline-cheap-module-source-map' : false,
+module.exports = (env) => { // env from CLI
 
-  plugins: [
-    new WebpackNotifierPlugin(),
-    new HtmlWebpackPlugin({
-      template: resolve('src/template.html'),
-      filename: resolve('dist/index.html'),
-      chunksSortMode: 'none' // https://github.com/facebook/create-react-app/issues/4667
-    }),
-    new CleanWebpackPlugin(resolve('dist')),
-    new CopyWebpackPlugin([{from: 'assets', to: resolve('dist/assets')}]),
-    new webpack.DefinePlugin({
-      LANG: JSON.stringify(lang),
-    }),
-    new AssetsManifestPlugin()
-  ],
-  resolve: {
-    extensions: ['.js'],
-    alias: {
-      lib: resolve('lib')
-    }
-  },
-  module:  {
-    rules: [
-      {
-        test:    /\.js$/,
-        exclude: /node_modules/,
-        loader:  'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', {
-              targets: {
-                browsers: '> 3%, ie 11'
+  return {
+    entry:     {
+      // default name is main also
+      main: resolve('src/main.js')
+    },
+    output:    {
+      path:          resolve('dist'),
+      publicPath:    '/',
+      filename:   extHash('[name]', 'js'),
+      chunkFilename: extHash('[name]-[id]', 'js'),
+    },
+    devServer: {
+      port:               8000,
+      host:               'localhost',
+      publicPath:         '/',
+      historyApiFallback: true,
+      contentBase:        resolve('dist'),
+      writeToDisk:        true
+    },
+
+    // not eval to read compiled source in the screencast
+    devtool: nodeEnv === 'development' ? 'inline-cheap-module-source-map' : false,
+
+    plugins: [
+      new WebpackNotifierPlugin(),
+      new HtmlWebpackPlugin({
+        template:       resolve('src/template.html'),
+        filename:       resolve('dist/index.html'),
+        chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
+      }),
+      new CleanWebpackPlugin(resolve('dist')),
+      new CopyWebpackPlugin([{from: 'assets', to: resolve('dist/assets')}]),
+      new webpack.DefinePlugin({
+        LANG: JSON.stringify(lang),
+      }),
+      new AssetsManifestPlugin({
+        // for LTS
+        // move it out of public root (not needed there)
+        output: '../build/manifest.json'
+      })
+    ],
+    resolve: {
+      extensions: ['.js'],
+      alias:      {
+        lib: resolve('lib')
+      }
+    },
+    module:  {
+      rules: [
+        {
+          test:    /\.js$/,
+          exclude: /node_modules/,
+          loader:  'babel-loader',
+          options: {
+            presets: [
+              ['@babel/preset-env', {
+                targets: {
+                  browsers: '> 3%, ie 11'
+                }
+              }]
+            ],
+            plugins: [
+              '@babel/plugin-proposal-object-rest-spread',
+              '@babel/plugin-syntax-dynamic-import'
+            ]
+          }
+        },
+        {
+          test: /\.(gif|png|jpg)$/,
+          use:  [{
+            // also exists url-loader
+            loader:  'file-loader',
+            options: {
+              name:  extHash('[path][name]', '[ext]')
+            }
+          }]
+        },
+        {
+          test: /\.css$/,
+          use:  [
+            'style-loader',
+            {
+              loader:  'css-loader',
+              // TODO: why this is needed?
+              options: {
+                importLoaders: 1
               }
-            }]
-          ],
-          plugins: [
-            '@babel/plugin-proposal-object-rest-spread',
-            '@babel/plugin-syntax-dynamic-import'
+            },
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident:   'postcss',
+                plugins: () => [
+                  postcssPresetEnv({
+                    features: {
+                      'nesting-rules': true
+                    }
+                  })
+                ]
+              }
+            }
           ]
         }
-      },
-      {
-        test: /\.(gif|png|jpg)$/,
-        use:  [{
-          loader:  'url-loader',
-          options: {
-            limit: 1000,
-            name:  'assets/[name].[hash:4].[ext]'
-          }
-        }]
-      },
-      {
-        test: /\.css$/,
-        use:  [
-          'style-loader',
-          {
-            loader:  'css-loader',
-            // TODO: why this is needed?
-            options: {
-              importLoaders: 1
-            }
-          },
-          {
-            loader: 'postcss-loader', options: {
-              ident:   'postcss',
-              plugins: () => [
-                postcssPresetEnv({
-                  features: {
-                    'nesting-rules': true
-                  }
-                })
-              ]
-            }
-          }
-        ]
-      }
-    ]
-  }
+      ]
+    }
+  };
 };
