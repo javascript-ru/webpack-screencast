@@ -1,30 +1,30 @@
 [
   {
-    "id": "1",
+    "id": "jquery",
     "label": "jQuery",
     "price": "free",
     "description": "jQuery — библиотека JavaScript, фокусирующаяся на взаимодействии JavaScript и HTML."
   },
   {
-    "id": "2",
+    "id": "react",
     "label": "React",
     "price": "free",
     "description": "React — JavaScript-библиотека с открытым исходным кодом для разработки пользовательских интерфейсов."
   },
   {
-    "id": "3",
+    "id": "angular",
     "label": "Angular",
     "price": "free",
     "description": "Angular - это открытая и свободная платформа для разработки веб-приложений, написанная на языке TypeScript, разрабатываемая командой из компании Google, а также сообществом разработчиков из различных компаний."
   },
   {
-    "id": "4",
+    "id": "backbone",
     "label": "Backbone",
     "price": "free",
     "description": "Backbone — JavaScript-библиотека, основанная на шаблоне проектирования Model-View-Presenter, предназначена для разработки веб-приложений с поддержкой RESTful JSON интерфейса."
   },
   {
-    "id": "5",
+    "id": "vue",
     "label": "Vue",
     "price": "free",
     "description": "Vue.js — JavaScript-фреймворк с открытым исходным кодом для создания пользовательских интерфейсов."

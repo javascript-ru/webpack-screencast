@@ -1,4 +1,4 @@
-import {handleLinkClick} from '../../utils';
+import Router from 'lib/router';
 import './banner.css';
 
 export const Banner = (text, link) => {
@@ -7,7 +7,7 @@ export const Banner = (text, link) => {
   if (link) {
     const linkElement = document.createElement('a');
     linkElement.href = link;
-    linkElement.onclick = handleLinkClick(link);
+    linkElement.onclick = Router.linkClickHandler(link);
     linkElement.innerText = text;
     divElement.appendChild(linkElement);
   } else {

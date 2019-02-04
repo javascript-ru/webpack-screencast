@@ -1,16 +1,15 @@
 import '@babel/polyfill';
-import './styles.css';
+import Router from 'lib/router';
+import loadMoment from 'lib/moment';
 import {Menu} from './components';
-import {renderPage} from './utils';
+import {renderPage} from './pages/utils';
+import './styles.css';
 
-// TODO: make less components
-
-// we're using export default?
-import {router} from 'lib/router';
+loadMoment();
 
 document.querySelector('#menu').appendChild(Menu());
 
-router
+Router.getInstance()
   .addRoute(/item\/(.*)/, renderPage('item'))
   .addRoute(/list/, renderPage('list'))
   .addRoute('/', renderPage('main'))

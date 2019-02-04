@@ -6,11 +6,9 @@
 // +HtmlWebpackPlugin
 // +CleanWebpackPlugin
 // +dynamic imports
-// +webpack-assets-manifest
-
-// TODO: динамический require с переменной (через контекст),
-//  убирание лишнего через комменты https://webpack.js.org/api/module-methods/#import-
-//  для сторонних модулей (moment.js): IgnorePlugin c функцией проверки контекста
+// +webpack-assets-manifest, cache
+// +MiniCssExtractPlugin
+// +IgnorePlugin
 
 const path = require('path');
 const webpack = require('webpack');
@@ -19,10 +17,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
 
 const nodeEnv = process.env.NODE_ENV; // development || production || test
-const lang = process.env.LANG || 'en';
+// const lang = process.env.LANG || 'en';
+const lang = 'ru';
 
 function resolve(relPath) {
   return path.resolve(__dirname, relPath);
@@ -33,7 +33,6 @@ function extHash(name, ext, hash = '[hash]') {
 }
 
 module.exports = (env) => { // env from CLI
-
   return {
     entry:     {
       // default name is main also
@@ -45,6 +44,7 @@ module.exports = (env) => { // env from CLI
       filename:   extHash('[name]', 'js'),
       chunkFilename: extHash('[name]-[id]', 'js'),
     },
+
     devServer: {
       port:               8000,
       host:               'localhost',
@@ -73,7 +73,12 @@ module.exports = (env) => { // env from CLI
         // for LTS
         // move it out of public root (not needed there)
         output: '../build/manifest.json'
-      })
+      }),
+      // new MiniCssExtractPlugin({
+      //   filename:   extHash('[name]', 'css'),
+      //   chunkFilename: extHash('[name]-[id]', 'css')
+      // }),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
     resolve: {
       extensions: ['.js'],
@@ -97,6 +102,7 @@ module.exports = (env) => { // env from CLI
             ],
             plugins: [
               '@babel/plugin-proposal-object-rest-spread',
+              '@babel/plugin-proposal-class-properties',
               '@babel/plugin-syntax-dynamic-import'
             ]
           }
@@ -114,6 +120,9 @@ module.exports = (env) => { // env from CLI
         {
           test: /\.css$/,
           use:  [
+            // {
+            //   loader: MiniCssExtractPlugin.loader
+            // },
             'style-loader',
             {
               loader:  'css-loader',

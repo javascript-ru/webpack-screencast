@@ -1,5 +1,5 @@
+import Router from 'lib/router';
 import './menu.css';
-import {handleLinkClick} from '../../utils';
 
 const items = [
   {route: '/', label: 'Главная'},
@@ -13,7 +13,7 @@ export const Menu = () => {
   items.forEach(({route, label}) => {
     const linkElement = document.createElement('a');
     linkElement.href = route;
-    linkElement.onclick = handleLinkClick(route);
+    linkElement.onclick = Router.linkClickHandler(route);
     linkElement.innerText = label;
     divElement.appendChild(linkElement);
   });

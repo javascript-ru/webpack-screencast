@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ifedyukin/webpack-example#readme",
   "devDependencies": {
     "@babel/core": "7.2.2",
+    "@babel/plugin-proposal-class-properties": "7.3.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/preset-env": "7.2.3",
     "babel-loader": "8.0.5",
@@ -29,6 +30,7 @@
     "css-loader": "2.1.0",
     "file-loader": "3.0.1",
     "html-webpack-plugin": "3.2.0",
+    "mini-css-extract-plugin": "0.5.0",
     "nodemon": "1.18.9",
     "postcss-loader": "3.0.0",
     "postcss-preset-env": "6.5.0",
@@ -43,6 +45,7 @@
   "dependencies": {
     "@babel/polyfill": "7.2.5",
     "local-web-server": "2.6.1",
+    "moment": "2.24.0",
     "normalize.css": "8.0.1"
   }
 }
