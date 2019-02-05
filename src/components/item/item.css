@@ -9,7 +9,7 @@
   flex-direction: column;
   cursor: pointer;
 
-  & .item_text {
+  & .text {
     margin: 0;
   }
 
@@ -23,4 +23,11 @@
     text-decoration: underline;
     color: black;
   }
+}
+
+.item-list {
+  display: flex;
+  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }

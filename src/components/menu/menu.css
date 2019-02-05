@@ -14,4 +14,8 @@
       text-decoration: underline;
     }
   }
+
+  & .month {
+    float: right;
+  }
 }

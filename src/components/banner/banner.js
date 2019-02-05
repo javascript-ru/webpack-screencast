@@ -1,7 +1,7 @@
 import Router from 'lib/router';
 import './banner.css';
 
-export const Banner = (text, link) => {
+export function Banner(text, link) {
   const divElement = document.createElement('div');
   divElement.classList.add('banner');
   if (link) {
@@ -14,4 +14,4 @@ export const Banner = (text, link) => {
     divElement.innerText = text;
   }
   return divElement;
-};
+}

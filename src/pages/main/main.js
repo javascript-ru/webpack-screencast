@@ -1,4 +1,3 @@
-import './main.css';
 import {Banner, Title, ItemsList} from '../../components';
 
 export default async function MainPage() {

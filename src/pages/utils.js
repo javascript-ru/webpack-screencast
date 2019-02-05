@@ -1,4 +1,11 @@
-const root = document.querySelector('#content');
+import {Menu} from '../components';
+
+const menuNode = document.querySelector('#menu');
+const rootNode = document.querySelector('#content');
+
+export async function renderMenu() {
+  menuNode.appendChild(await Menu());
+}
 
 function clearBlock(block) {
   while (block.firstChild) {
@@ -8,9 +15,9 @@ function clearBlock(block) {
 
 async function loadChunkAndRender(page, route) {
   const {default: pageRenderer} = await import(`./${page}/${page}`);
-  clearBlock(root);
+  clearBlock(rootNode);
   const renderedPage = await pageRenderer(route);
-  root.appendChild(renderedPage);
+  rootNode.appendChild(renderedPage);
 }
 
 export function renderPage(page) {

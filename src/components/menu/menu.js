@@ -1,4 +1,5 @@
 import Router from 'lib/router';
+import loadMoment from 'lib/moment';
 import './menu.css';
 
 const items = [
@@ -6,8 +7,8 @@ const items = [
   {route: '/list', label: 'Каталог'}
 ];
 
-
-export const Menu = () => {
+export async function Menu() {
+  const moment = await loadMoment();
   const divElement = document.createElement('div');
 
   items.forEach(({route, label}) => {
@@ -18,5 +19,10 @@ export const Menu = () => {
     divElement.appendChild(linkElement);
   });
 
+  const date = document.createElement('span');
+  date.classList.add('month');
+  date.innerText = `Месяц: ${moment().format('MMMM')}`;
+  divElement.appendChild(date);
+
   return divElement;
-};
+}

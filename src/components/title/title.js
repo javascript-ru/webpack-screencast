@@ -1,6 +1,6 @@
 import './title.css';
 
-export const Title = (text) => {
+export function Title(text) {
   const divElement = document.createElement('div');
 
   divElement.classList.add('title');
@@ -9,4 +9,4 @@ export const Title = (text) => {
   divElement.appendChild(h1Element);
 
   return divElement;
-};
+}
