@@ -56,6 +56,17 @@ module.exports = (env) => { // env from CLI
 
     // not eval to read compiled source in the screencast
     devtool: nodeEnv === 'development' ? 'inline-cheap-module-source-map' : false,
+    mode: nodeEnv === 'development' ? 'development' : 'production',
+
+    /*
+    // if we're not using devserver
+    watch: nodeEnv === 'development',
+
+    watchOptions: {
+      aggregateTimeout: 30,
+      ignored:          /node_modules/
+    },
+     */
 
     plugins: [
       new WebpackNotifierPlugin(),
@@ -79,6 +90,57 @@ module.exports = (env) => { // env from CLI
       //   chunkFilename: extHash('[name]-[id]', 'css')
       // }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+
+      /*
+
+      // ignore all locales except current lang
+      new webpack.IgnorePlugin({
+        checkResource(request, context) {
+          // locale requires that file back from it, need to keep it
+          if (request === '../moment') return false; // don't ignore this
+          if (request.startsWith('./' + config.lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
+
+          if (context.endsWith(path.join('node_modules', 'moment', 'locale'))) return true;
+        },
+      }),
+
+
+      // // ignore all locales except current lang
+      // new webpack.IgnorePlugin({
+      //   checkResource(arg) {
+      //     // locale requires that file back from it, need to keep it
+      //     if (arg === '../moment') return false; // don't ignore this
+      //     if (arg.startsWith('./' + config.lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
+      //     tmp = arg; // for logging only
+      //     return true;
+      //   },
+      //   // under dirs like: ../locales/..
+      //   checkContext(arg) {
+      //     let ignore = arg.endsWith(path.join('node_modules', 'moment', 'locale'));
+      //     if (ignore) {
+      //       // console.log("ignore moment locale", tmp, arg);
+      //       return true;
+      //     }
+      //   }
+      // }),
+
+
+
+       */
+
+
+      {
+        apply(compiler) {
+          if (process.env.WEBPACK_STATS) {
+            compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
+              stats = stats.toJson();
+              fs.writeFileSync(`../build/stats.json`, JSON.stringify(stats));
+            });
+          }
+        }
+      }
+
+
     ],
     resolve: {
       extensions: ['.js'],
@@ -126,8 +188,9 @@ module.exports = (env) => { // env from CLI
             'style-loader',
             {
               loader:  'css-loader',
-              // TODO: why this is needed?
               options: {
+                // css loader needs to know how many loaders to apply to all imported files
+                // any @import'ed css first gets through loaders below (separately from other imported files)
                 importLoaders: 1
               }
             },
@@ -138,7 +201,9 @@ module.exports = (env) => { // env from CLI
                 plugins: () => [
                   postcssPresetEnv({
                     features: {
-                      'nesting-rules': true
+                      'nesting-rules': true,
+                      // https://github.com/postcss/postcss-custom-properties/issues/167
+                      'custom-properties': true // css vars
                     }
                   })
                 ]
