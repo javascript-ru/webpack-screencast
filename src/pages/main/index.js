@@ -1,6 +1,6 @@
 import Banner from '../../components/banner';
 import TitleHeader from '../../components/titleHeader';
-import ItemsList from '../../components/itemList';
+import ItemsList from '../../components/itemsList';
 
 export default async function MainPage() {
   const requestedItems = await fetch('/assets/items.json');

@@ -1,4 +1,3 @@
-import Router from 'lib/router';
 import template from './itemList.pug';
 import './item.css';
 

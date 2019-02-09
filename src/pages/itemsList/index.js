@@ -1,4 +1,4 @@
-import ItemsList from '../../components/itemList';
+import ItemsList from '../../components/itemsList';
 
 export default async function ItemsListPage() {
   const requestedItems = await fetch('/assets/items.json');

@@ -10,6 +10,7 @@
 // +MiniCssExtractPlugin
 // +IgnorePlugin
 
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const postcssPresetEnv = require('postcss-preset-env');
@@ -20,7 +21,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
 
-const nodeEnv = process.env.NODE_ENV; // development || production || test
+const developmentEnv = process.env.NODE_ENV === 'development';
 // const lang = process.env.LANG || 'en';
 const lang = 'en';
 
@@ -29,7 +30,7 @@ function resolve(relPath) {
 }
 
 function extHash(name, ext, hash = '[hash]') {
-  return nodeEnv === 'development' ? `${name}.${ext}?${hash}` : `${name}.${hash}.${ext}`;
+  return developmentEnv ? `${name}.${ext}?${hash}` : `${name}.${hash}.${ext}`;
 }
 
 module.exports = (env) => { // env from CLI
@@ -55,12 +56,12 @@ module.exports = (env) => { // env from CLI
     },
 
     // not eval to read compiled source in the screencast
-    devtool: nodeEnv === 'development' ? 'inline-cheap-module-source-map' : false,
-    mode: nodeEnv === 'development' ? 'development' : 'production',
+    devtool: developmentEnv ? 'inline-cheap-module-source-map' : false,
+    mode: developmentEnv ? 'development' : 'production',
 
     /*
     // if we're not using devserver
-    watch: nodeEnv === 'development',
+    watch: developmentEnv,
 
     watchOptions: {
       aggregateTimeout: 30,
@@ -75,7 +76,7 @@ module.exports = (env) => { // env from CLI
         filename:       resolve('dist/index.html'),
         chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
       }),
-      new CleanWebpackPlugin(resolve('dist')),
+      new CleanWebpackPlugin([resolve('dist'), resolve('build')]),
       new CopyWebpackPlugin([{from: 'assets', to: resolve('dist/assets')}]),
       new webpack.DefinePlugin({
         LANG: JSON.stringify(lang),

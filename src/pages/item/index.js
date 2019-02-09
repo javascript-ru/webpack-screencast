@@ -1,4 +1,4 @@
-import Router from 'lib/router';
+import router from 'lib/router';
 import template from './item.pug';
 import './item.css';
 
@@ -8,7 +8,7 @@ export default async function ItemPage(route) {
   const items = await requestedItems.json();
 
   const item = items.find(({id: itemId}) => id === itemId);
-  if (!item) return Router.navigate('/404');
+  if (!item) router.fallbackHandler();
 
   const element = document.createElement('div');
   element.innerHTML = template({
