@@ -6,7 +6,7 @@ export default class {
     this.text = text;
   }
 
-  render() {
+  async render() {
     const element = document.createElement('div');
     element.innerHTML = template({
       text: this.text

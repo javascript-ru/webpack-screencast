@@ -7,7 +7,7 @@ export default class {
     this.link = link;
   }
 
-  render() {
+  async render() {
     const element = document.createElement('div');
     element.innerHTML = template({
       link: this.link,

@@ -7,7 +7,7 @@ export default class {
     this.menuItems = menuItems;
   }
 
-  render() {
+  async render() {
     const element = document.createElement('div');
     element.innerHTML = template({
       items: this.menuItems,
