@@ -40,13 +40,14 @@
     "webpack-assets-manifest": "3.1.1",
     "webpack-cli": "3.2.1",
     "webpack-dev-server": "3.1.14",
-    "webpack-notifier": "1.7.0",
-    "webpack-visualizer-plugin": "0.1.11"
+    "webpack-notifier": "1.7.0"
   },
   "dependencies": {
     "@babel/polyfill": "7.2.5",
     "local-web-server": "2.6.1",
     "moment": "2.24.0",
-    "normalize.css": "8.0.1"
+    "normalize.css": "8.0.1",
+    "pug": "^2.0.3",
+    "pug-loader": "^2.4.0"
   }
 }

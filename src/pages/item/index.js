@@ -1,5 +1,5 @@
 import Router from 'lib/router';
-import {Title} from '../../components';
+import TitleHeader from '../../components/titleHeader';
 import './item.css';
 
 function ItemDescription(text) {

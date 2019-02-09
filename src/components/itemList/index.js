@@ -1,6 +1,7 @@
 import Router from 'lib/router';
 import './item.css';
 
+
 function Item({label, id, price}) {
   const divElement = document.createElement('item');
   divElement.classList.add('item');
@@ -28,13 +29,21 @@ function Item({label, id, price}) {
   return divElement;
 }
 
-export function ItemsList(items) {
-  const divElement = document.createElement('div');
+export default class {
+  constructor(items) {
+    this.items = items;
+  }
 
-  divElement.classList.add('item-list');
-  items.forEach((item) => {
-    divElement.appendChild(Item(item));
-  });
+  // TODO
+  render() {
+    const divElement = document.createElement('div');
 
-  return divElement;
+    divElement.classList.add('item-list');
+    items.forEach((item) => {
+      divElement.appendChild(Item(item));
+    });
+
+    return divElement;
+  }
+
 }

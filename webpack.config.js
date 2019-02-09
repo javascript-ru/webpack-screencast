@@ -17,7 +17,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const VisualizerPlugin = require('webpack-visualizer-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
 
@@ -100,19 +99,20 @@ module.exports = (env) => { // env from CLI
           if (context.endsWith(path.join('node_modules', 'moment', 'locale'))) return true;
         },
       }),
-      new VisualizerPlugin({
-        filename: '../build/visualizer.html'
-      }),
-      // {
-      //   apply(compiler) {
-      //     if (process.env.WEBPACK_STATS) {
-      //       compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
-      //         stats = stats.toJson();
-      //         fs.writeFileSync(`./build/stats.json`, JSON.stringify(stats));
-      //       });
-      //     }
-      //   }
-      // },
+
+      // webpack visualizer only shows modules (obvious which one is not needed)
+      // webpack analyzer shows which modules requires which modules
+      //  can use VisualizerPlugin to generate html or upload to service
+      {
+        apply(compiler) {
+          if (process.env.WEBPACK_STATS) {
+            compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
+              stats = stats.toJson();
+              fs.writeFileSync(`./build/stats.json`, JSON.stringify(stats));
+            });
+          }
+        }
+      },
     ],
     resolve: {
       extensions: ['.js'],
@@ -150,6 +150,10 @@ module.exports = (env) => { // env from CLI
               name:  extHash('[path][name]', '[ext]')
             }
           }]
+        },
+        {
+          test: /\.pug/,
+          use:  'pug-loader'
         },
         {
           test: /\.css$/,

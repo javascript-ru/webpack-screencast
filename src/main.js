@@ -1,12 +1,15 @@
 import '@babel/polyfill';
-import Router from 'lib/router';
-import {renderPage, renderMenu} from './pages/utils';
+import router from 'lib/router';
+import Menu from './components/menu';
+import renderPage from './pages/renderPage';
 import './styles.css';
 
-renderMenu();
-Router
-  .addRoute(/item\/(.*)/, renderPage('item'))
-  .addRoute(/list/, renderPage('list'))
-  .addRoute('/', renderPage('main'))
-  .setFallback(renderPage('main'))
+const menuNode = document.querySelector('#menu');
+menuNode.appendChild(new Menu());
+
+router
+  .addRoute(/^item\/(.*)/, renderPage('item'))
+  .addRoute(/^list/, renderPage('list'))
+  .addRoute('', renderPage('main'))
+  .setFallbackHandler(renderPage('error', 404)) // TODO
   .listen();
