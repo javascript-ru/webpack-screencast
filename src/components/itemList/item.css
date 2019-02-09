@@ -7,7 +7,6 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  cursor: pointer;
 
   & .text {
     margin: 0;

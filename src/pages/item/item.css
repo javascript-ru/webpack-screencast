@@ -1,10 +1,14 @@
 #item-page {
-  & .description {
+  & .item-title {
+    text-align: center;
+  }
+
+  & .item-description {
     padding: 10px;
     text-align: center;
   }
   
-  & .image {
+  & .item-image {
     padding: 10px;
     margin: auto;
     height: 350px;

@@ -47,7 +47,7 @@
     "local-web-server": "2.6.1",
     "moment": "2.24.0",
     "normalize.css": "8.0.1",
-    "pug": "^2.0.3",
-    "pug-loader": "^2.4.0"
+    "pug": "2.0.3",
+    "pug-loader": "2.4.0"
   }
 }

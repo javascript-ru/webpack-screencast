@@ -1,4 +1,5 @@
 import './banner.css';
+import template from './banner.pug';
 
 export default class {
   constructor(text, link) {
@@ -7,17 +8,11 @@ export default class {
   }
 
   render() {
-    // TODO: template
-    const divElement = document.createElement('div');
-    divElement.classList.add('banner');
-    if (link) {
-      const linkElement = document.createElement('a');
-      linkElement.href = link;
-      linkElement.innerText = text;
-      divElement.appendChild(linkElement);
-    } else {
-      divElement.innerText = text;
-    }
-    return divElement;
+    const element = document.createElement('div');
+    element.innerHTML = template({
+      link: this.link,
+      text: this.text
+    });
+    return element;
   }
 }

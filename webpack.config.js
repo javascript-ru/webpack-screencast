@@ -22,7 +22,7 @@ const AssetsManifestPlugin = require('webpack-assets-manifest');
 
 const nodeEnv = process.env.NODE_ENV; // development || production || test
 // const lang = process.env.LANG || 'en';
-const lang = 'ru';
+const lang = 'en';
 
 function resolve(relPath) {
   return path.resolve(__dirname, relPath);
@@ -106,9 +106,9 @@ module.exports = (env) => { // env from CLI
       {
         apply(compiler) {
           if (process.env.WEBPACK_STATS) {
-            compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
+            compiler.plugin("done", function(stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
               stats = stats.toJson();
-              fs.writeFileSync(`./build/stats.json`, JSON.stringify(stats));
+              fs.writeFileSync(resolve('build/stats.json'), JSON.stringify(stats));
             });
           }
         }

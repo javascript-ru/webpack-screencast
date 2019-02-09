@@ -2,18 +2,17 @@ import moment from 'moment';
 import './menu.css';
 import template from './menu.pug';
 
-const items = [
-  {route: '/', label: 'Main'},
-  {route: '/list', label: 'List'}
-];
-
 export default class {
-
-  render() {
-    return template({
-      items,
-      date: moment().format('MMMM')
-    });
+  constructor(menuItems) {
+    this.menuItems = menuItems;
   }
 
+  render() {
+    const element = document.createElement('div');
+    element.innerHTML = template({
+      items: this.menuItems,
+      date: moment().format('MMMM')
+    });
+    return element;
+  }
 }
