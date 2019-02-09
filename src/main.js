@@ -4,7 +4,7 @@ import {renderPage, renderMenu} from './pages/utils';
 import './styles.css';
 
 renderMenu();
-Router.getInstance()
+Router
   .addRoute(/item\/(.*)/, renderPage('item'))
   .addRoute(/list/, renderPage('list'))
   .addRoute('/', renderPage('main'))

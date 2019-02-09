@@ -3,8 +3,8 @@ import {Menu} from '../components';
 const menuNode = document.querySelector('#menu');
 const rootNode = document.querySelector('#content');
 
-export async function renderMenu() {
-  menuNode.appendChild(await Menu());
+export function renderMenu() {
+  menuNode.appendChild(Menu());
 }
 
 function clearBlock(block) {

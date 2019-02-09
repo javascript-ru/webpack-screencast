@@ -1,5 +1,5 @@
+import moment from 'moment';
 import Router from 'lib/router';
-import loadMoment from 'lib/moment';
 import './menu.css';
 
 const items = [
@@ -7,8 +7,7 @@ const items = [
   {route: '/list', label: 'Каталог'}
 ];
 
-export async function Menu() {
-  const moment = await loadMoment();
+export function Menu() {
   const divElement = document.createElement('div');
 
   items.forEach(({route, label}) => {

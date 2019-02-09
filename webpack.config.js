@@ -17,6 +17,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackNotifierPlugin = require('webpack-notifier');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const VisualizerPlugin = require('webpack-visualizer-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
 
@@ -89,58 +90,29 @@ module.exports = (env) => { // env from CLI
       //   filename:   extHash('[name]', 'css'),
       //   chunkFilename: extHash('[name]-[id]', 'css')
       // }),
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
-
-      /*
-
-      // ignore all locales except current lang
+      // ignore all moment locales except current lang
       new webpack.IgnorePlugin({
         checkResource(request, context) {
           // locale requires that file back from it, need to keep it
           if (request === '../moment') return false; // don't ignore this
-          if (request.startsWith('./' + config.lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
+          if (request.startsWith('./' + lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
 
           if (context.endsWith(path.join('node_modules', 'moment', 'locale'))) return true;
         },
       }),
-
-
-      // // ignore all locales except current lang
-      // new webpack.IgnorePlugin({
-      //   checkResource(arg) {
-      //     // locale requires that file back from it, need to keep it
-      //     if (arg === '../moment') return false; // don't ignore this
-      //     if (arg.startsWith('./' + config.lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
-      //     tmp = arg; // for logging only
-      //     return true;
-      //   },
-      //   // under dirs like: ../locales/..
-      //   checkContext(arg) {
-      //     let ignore = arg.endsWith(path.join('node_modules', 'moment', 'locale'));
-      //     if (ignore) {
-      //       // console.log("ignore moment locale", tmp, arg);
-      //       return true;
+      new VisualizerPlugin({
+        filename: '../build/visualizer.html'
+      }),
+      // {
+      //   apply(compiler) {
+      //     if (process.env.WEBPACK_STATS) {
+      //       compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
+      //         stats = stats.toJson();
+      //         fs.writeFileSync(`./build/stats.json`, JSON.stringify(stats));
+      //       });
       //     }
       //   }
-      // }),
-
-
-
-       */
-
-
-      {
-        apply(compiler) {
-          if (process.env.WEBPACK_STATS) {
-            compiler.plugin("done", function(stats) { //  https://github.com/FormidableLabs/webpack-stats-plugin ?
-              stats = stats.toJson();
-              fs.writeFileSync(`../build/stats.json`, JSON.stringify(stats));
-            });
-          }
-        }
-      }
-
-
+      // },
     ],
     resolve: {
       extensions: ['.js'],
