@@ -15,11 +15,12 @@ export default class {
     }));
   }
 
-  render() {
-    const element = document.createElement('div');
-    element.innerHTML = template({
+  async render() {
+    const elem = document.createElement('div');
+    elem.classList.add('item-list');
+    elem.innerHTML = template({
       items: this.getPreparedItems()
     });
-    return element;
+    return elem;
   }
 }

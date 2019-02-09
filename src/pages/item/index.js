@@ -2,18 +2,24 @@ import router from 'lib/router';
 import template from './item.pug';
 import './item.css';
 
-export default async function ItemPage(route) {
-  const id = route.replace('item/', '');
-  const requestedItems = await fetch('/assets/items.json');
-  const items = await requestedItems.json();
+export default class {
+  constructor (route) {
+    this.id = route.replace('item/', '');
+  }
 
-  const item = items.find(({id: itemId}) => id === itemId);
-  if (!item) router.fallbackHandler();
+  async render() {
+    const requestedItems = await fetch('/assets/items.json');
+    const items = await requestedItems.json();
 
-  const element = document.createElement('div');
-  element.innerHTML = template({
-    ...item,
-    img: `/assets/items/${id}.png`
-  });
-  return element;
+    const item = items.find(({id: itemId}) => this.id === itemId);
+    if (!item) router.fallbackHandler();
+
+    const elem = document.createElement('div');
+    elem.id = 'item-page';
+    elem.innerHTML = template({
+      ...item,
+      img: `/assets/items/${this.id}.png`
+    });
+    return elem;
+  }
 }

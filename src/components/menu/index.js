@@ -8,11 +8,11 @@ export default class {
   }
 
   async render() {
-    const element = document.createElement('div');
-    element.innerHTML = template({
+    const elem = document.createElement('div');
+    elem.innerHTML = template({
       items: this.menuItems,
       date: moment().format('DD MMMM YYYY')
     });
-    return element;
+    return elem;
   }
 }

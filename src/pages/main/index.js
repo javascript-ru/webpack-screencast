@@ -1,16 +1,22 @@
-import Banner from '../../components/banner';
-import TitleHeader from '../../components/titleHeader';
 import ItemsList from '../../components/itemsList';
+import template from './main.pug';
+import './main.css';
 
-export default async function MainPage() {
-  const requestedItems = await fetch('/assets/items.json');
-  const items = await requestedItems.json();
+export default class {
+  async render() {
+    const requestedItems = await fetch('/assets/items.json');
+    const items = await requestedItems.json();
 
-  const divElement = document.createElement('div');
-  divElement.id = 'main';
-  divElement.appendChild(new TitleHeader('Framework shop!').render());
-  divElement.appendChild(new Banner('Buy only from us, everything is free').render());
-  divElement.appendChild(new ItemsList(items.slice(0, 5)).render());
-  divElement.appendChild(new Banner('See all frameworks', '/list').render());
-  return divElement;
+    const elem = document.createElement('div');
+    elem.id = 'main';
+    elem.innerHTML = template({
+      title: 'Framework shop!',
+      firstBanner: 'Buy only from us, everything is free',
+      secondBanner: 'See all frameworks',
+      link: '/list'
+    });
+    const itemsList = new ItemsList(items.slice(0, 5));
+    elem.appendChild(await itemsList.render());
+    return elem;
+  }
 }

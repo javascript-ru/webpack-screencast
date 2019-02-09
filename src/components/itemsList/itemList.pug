@@ -1,7 +1,6 @@
-div.item-list
-  each item in items
-    div.item
-      img(src=item.img)
-      a(href=item.link)
-        h2.text=item.label
-      h3.text=item.price
+each item in items
+  div.item
+    img(src=item.img)
+    a(href=item.link)
+      h2.text=item.label
+    h3.text=item.price
