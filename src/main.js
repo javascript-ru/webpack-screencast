@@ -11,5 +11,5 @@ router
   .addRoute(/^list\/?$/, renderPage('itemsList'))
   .addRoute('', renderPage('main'))
   .addRoute(/^404\/?$/, renderPage('error', 404, 'Not found!'))
-  .setFallbackHandler(renderPage('error', 404, 'Not found!'))
+  .setNotFoundHandler(renderPage('error', 404, 'Not found!'))
   .listen();

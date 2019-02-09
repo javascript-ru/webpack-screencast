@@ -1,4 +1,6 @@
 import template from './itemList.pug';
+import renderTemplate from '../../utils/renderTemplate';
+
 import './item.css';
 
 export default class {
@@ -6,6 +8,7 @@ export default class {
     this.items = items;
   }
 
+  // TODO: make in template
   getPreparedItems() {
     return this.items.map(({label, id, price}) => ({
       label,
@@ -16,11 +19,8 @@ export default class {
   }
 
   async render() {
-    const elem = document.createElement('div');
-    elem.classList.add('item-list');
-    elem.innerHTML = template({
-      items: this.getPreparedItems()
+    return renderTemplate(template, {
+      items: this.items
     });
-    return elem;
   }
 }

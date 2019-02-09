@@ -3,21 +3,25 @@ import template from './item.pug';
 import './item.css';
 
 export default class {
-  constructor (route) {
+  constructor(route) {
     this.id = route.replace('item/', '');
   }
 
   async render() {
-    const requestedItems = await fetch('/assets/items.json');
-    const items = await requestedItems.json();
+    let allItems = await fetch('/assets/items.json');
+    allItems = await allItems.json();
 
-    const item = items.find(({id: itemId}) => this.id === itemId);
-    if (!item) router.fallbackHandler();
+    const item = allItems.find(item => this.id === item.id);
+    if (!item) {
+      router.notFoundHandler();
+      return;
+    }
 
     const elem = document.createElement('div');
     elem.id = 'item-page';
     elem.innerHTML = template({
-      ...item,
+      item,
+      // todo: move to template
       img: `/assets/items/${this.id}.png`
     });
     return elem;
