@@ -1,4 +1,5 @@
 import moment from 'moment';
+import renderTemplate from '../../utils/renderTemplate';
 import template from './menu.pug';
 import './menu.css';
 
@@ -8,11 +9,9 @@ export default class {
   }
 
   async render() {
-    const elem = document.createElement('div');
-    elem.innerHTML = template({
+    return renderTemplate(template, {
       items: this.menuItems,
       date: moment().format('DD MMMM YYYY')
     });
-    return elem;
   }
 }

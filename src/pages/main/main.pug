@@ -1,6 +1,8 @@
-.main
+#main
   h1.title=title
-  div.banner
-    span=firstBanner
-  div.banner
-    a(href=link)=secondBanner
+  each banner in banners
+    div.banner
+      if banner.link
+        a(href=banner.link)=banner.text
+      else
+        span=banner.text

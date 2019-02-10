@@ -1,3 +1,4 @@
+import renderTemplate from '../../utils/renderTemplate';
 import template from './error.pug';
 import './error.css';
 
@@ -8,12 +9,9 @@ export default class {
   }
 
   async render() {
-    const elem = document.createElement('div');
-    elem.id = 'error-page';
-    elem.innerHTML = template({
+    return renderTemplate(template, {
       header: 'Error!',
       message: `${this.code} - ${this.text}`
     });
-    return elem;
   }
 }

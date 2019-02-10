@@ -1,5 +1,5 @@
-.item
-  h1.item-title=label
+#item-page
+  h1.item-title=item.label
   div.item-description
-    p=description
-  img.item-image(src=img)
+    p=item.description
+  img.item-image(src="/assets/items/" + item.id + ".png")

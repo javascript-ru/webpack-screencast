@@ -1,4 +1,5 @@
 import router from 'lib/router';
+import renderTemplate from '../../utils/renderTemplate';
 import template from './item.pug';
 import './item.css';
 
@@ -17,13 +18,8 @@ export default class {
       return;
     }
 
-    const elem = document.createElement('div');
-    elem.id = 'item-page';
-    elem.innerHTML = template({
-      item,
-      // todo: move to template
-      img: `/assets/items/${this.id}.png`
+    return renderTemplate(template, {
+      item
     });
-    return elem;
   }
 }

@@ -1,3 +1,4 @@
+import renderTemplate from '../../utils/renderTemplate';
 import ItemsList from '../../components/itemsList';
 import template from './main.pug';
 import './main.css';
@@ -7,13 +8,17 @@ export default class {
     const requestedItems = await fetch('/assets/items.json');
     const items = await requestedItems.json();
 
-    const elem = document.createElement('div');
-    elem.id = 'main';
-    elem.innerHTML = template({
+    const elem = renderTemplate(template, {
       title: 'Framework shop!',
-      firstBanner: 'Buy only from us, everything is free',
-      secondBanner: 'See all frameworks',
-      link: '/list'
+      banners: [
+        {
+          text: 'Buy only from us, everything is free'
+        },
+        {
+          link: '/list',
+          text: 'See all frameworks'
+        }
+      ]
     });
     const itemsList = new ItemsList(items.slice(0, 5));
     elem.appendChild(await itemsList.render());
