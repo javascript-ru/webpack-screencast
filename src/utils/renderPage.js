@@ -9,6 +9,5 @@ export default function(module, ...args) {
     const contentNode = document.querySelector('#content');
     contentNode.innerHTML = '';
     contentNode.appendChild(renderedPage);
-  }
-};
-
+  };
+}

@@ -8,7 +8,8 @@
     "build": "webpack --mode production --progress -p",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --progress --watch",
     "watch": "nodemon --exec npm run dev",
-    "stats": "cross-env WEBPACK_STATS=true npm run build"
+    "stats": "cross-env WEBPACK_STATS=true npm run build",
+    "lint": "eslint src lib"
   },
   "repository": {
     "type": "git",
@@ -25,11 +26,13 @@
     "@babel/plugin-proposal-class-properties": "7.3.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/preset-env": "7.2.3",
+    "babel-eslint": "10.0.1",
     "babel-loader": "8.0.5",
     "clean-webpack-plugin": "1.0.0",
     "copy-webpack-plugin": "4.6.0",
     "cross-env": "5.2.0",
     "css-loader": "2.1.0",
+    "eslint": "5.13.0",
     "file-loader": "3.0.1",
     "html-webpack-plugin": "3.2.0",
     "mini-css-extract-plugin": "0.5.0",

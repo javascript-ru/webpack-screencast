@@ -14,4 +14,4 @@ export default class {
       date: moment().format('DD MMMM YYYY')
     });
   }
-};
+}

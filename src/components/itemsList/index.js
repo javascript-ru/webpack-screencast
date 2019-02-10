@@ -13,4 +13,4 @@ export default class {
       items: this.items
     });
   }
-};
+}
