@@ -9,7 +9,7 @@ export default class {
   }
 
   async render() {
-    let allItems = await fetch('/assets/items.json');
+    let allItems = await fetch('/items.json');
     allItems = await allItems.json();
 
     const item = allItems.find(item => this.id === item.id);

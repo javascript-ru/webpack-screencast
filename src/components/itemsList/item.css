@@ -23,10 +23,3 @@
     color: black;
   }
 }
-
-.item-list {
-  display: flex;
-  padding: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-}

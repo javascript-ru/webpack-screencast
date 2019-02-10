@@ -5,8 +5,8 @@ import './main.css';
 
 export default class {
   async render() {
-    const requestedItems = await fetch('/assets/items.json');
-    const items = await requestedItems.json();
+    let allItems = await fetch('/items.json');
+    allItems = await allItems.json();
 
     const elem = renderTemplate(template, {
       title: 'Framework shop!',
@@ -20,8 +20,10 @@ export default class {
         }
       ]
     });
-    const itemsList = new ItemsList(items.slice(0, 5));
+
+    const itemsList = new ItemsList(allItems.slice(0, 5));
     elem.appendChild(await itemsList.render());
+
     return elem;
   }
 }

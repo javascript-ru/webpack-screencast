@@ -1,5 +1,6 @@
 import renderTemplate from '../../utils/renderTemplate';
-import template from './itemList.pug';
+import template from './itemsList.pug';
+import './itemsList.css';
 import './item.css';
 
 export default class {
@@ -12,4 +13,4 @@ export default class {
       items: this.items
     });
   }
-}
+};

@@ -22,8 +22,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
 
 const developmentEnv = process.env.NODE_ENV === 'development';
-// const lang = process.env.LANG || 'en';
-const lang = 'en';
+
+const lang = process.env.NODE_LANG || 'en';
 
 function resolve(relPath) {
   return path.resolve(__dirname, relPath);
@@ -77,7 +77,7 @@ module.exports = (env) => { // env from CLI
         chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
       }),
       new CleanWebpackPlugin([resolve('dist'), resolve('build')]),
-      new CopyWebpackPlugin([{from: 'assets', to: resolve('dist/assets')}]),
+      new CopyWebpackPlugin([{from: 'assets'  }]),
       new webpack.DefinePlugin({
         LANG: JSON.stringify(lang),
       }),
@@ -95,9 +95,15 @@ module.exports = (env) => { // env from CLI
         checkResource(request, context) {
           // locale requires that file back from it, need to keep it
           if (request === '../moment') return false; // don't ignore this
-          if (request.startsWith('./' + lang)) return false; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
 
-          if (context.endsWith(path.join('node_modules', 'moment', 'locale'))) return true;
+          // only ignore locales
+          if (!context.endsWith(path.join('node_modules', 'moment', 'locale'))) return false;
+
+          // for "en" ignore all locale files, no need
+          if (lang === 'en') return true;
+
+          if (request !== `./${lang}.js`) return true; // don't ignore current locale ./ru ./ru.js ./zh ./zh-cn.js
+
         },
       }),
 
@@ -131,7 +137,8 @@ module.exports = (env) => { // env from CLI
             presets: [
               ['@babel/preset-env', {
                 targets: {
-                  browsers: '> 3%, ie 11'
+                  browsers: '> 3%'
+                  // browsers: '> 3%, ie 11' // ie 11 transpiles classes
                 }
               }]
             ],

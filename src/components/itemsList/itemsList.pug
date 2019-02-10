@@ -1,0 +1,11 @@
+.items-list
+  each item in items
+    .item
+      img(src=`/items/${item.id}.png`)
+      a(href=`/item/${item.id}`)
+        .item-label= item.label
+      .item-price
+        if item.price
+          | $#{item.price}
+        else
+          | Free!

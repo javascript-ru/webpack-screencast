@@ -6,7 +6,7 @@
     "start": "npm run dev",
     "serve": "cd dist && ws --spa index.html",
     "build": "webpack --mode production --progress -p",
-    "dev": "webpack-dev-server --hot --inline --mode development --progress --watch",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --progress --watch",
     "watch": "nodemon --exec npm run dev",
     "stats": "cross-env WEBPACK_STATS=true npm run build"
   },
