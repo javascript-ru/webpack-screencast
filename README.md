@@ -21,7 +21,7 @@ npm install
 * `WebpackNotifierPlugin`.
 * `HtmlWebpackPlugin`.
 * `CleanWebpackPlugin`, `CopyWebpackPlugin`.
-* `DefunePlugin`, `IgnorePlugin` for `moment.js`.
+* `DefinePlugin`, `IgnorePlugin` for `moment.js`.
 * Webpack Stats.
 * Aliases.
 * Dynamic imports.
