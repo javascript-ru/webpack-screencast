@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "Simple webpack app",
   "scripts": {
-    "start": "npm run dev",
     "serve": "cd dist && ws --spa index.html",
     "build": "webpack --mode production --progress -p",
     "dev": "cross-env NODE_ENV=development webpack-dev-server --hot --inline --progress --watch",
     "watch": "nodemon --exec npm run dev",
-    "stats": "cross-env WEBPACK_STATS=true npm run build",
     "lint": "eslint src lib"
   },
   "repository": {
