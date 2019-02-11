@@ -5,6 +5,8 @@ import './menu.css';
 
 export default class {
   constructor(menuItems) {
+    moment.locale(LANG);
+    console.log(LANG)
     this.menuItems = menuItems;
   }
 
