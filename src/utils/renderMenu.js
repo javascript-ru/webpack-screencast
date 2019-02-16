@@ -2,8 +2,8 @@ import Menu from '../components/menu';
 
 export default async function renderMenu() {
   const menuItems = [
-    {route: '/', label: 'Main'},
-    {route: '/list', label: 'List'}
+    {route: '/index.html', label: 'Main'},
+    {route: '/items-list.html', label: 'List'}
   ];
 
   const menuNode = document.querySelector('#menu');

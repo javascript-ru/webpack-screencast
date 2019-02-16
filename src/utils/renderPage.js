@@ -1,13 +1,10 @@
-export default function(module, ...args) {
-  return async function(route) {
-    // show /* webpackMode: "lazy-once" */ here too
-    const {default: Page} = await import( `../pages/${module}`); // NB!
-    const page = new Page(route, ...args);
+export default async function(Page) {
+  const route = window.document.location.pathname;
+  const page = new Page(route);
 
-    const renderedPage = await page.render();
+  const renderedPage = await page.render();
 
-    const contentNode = document.querySelector('#content');
-    contentNode.innerHTML = '';
-    contentNode.appendChild(renderedPage);
-  };
+  const contentNode = document.querySelector('#content');
+  contentNode.innerHTML = '';
+  contentNode.appendChild(renderedPage);
 }

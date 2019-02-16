@@ -36,8 +36,10 @@ function extHash(name, ext, hash = '[hash]') {
 module.exports = (env) => { // env from CLI
   return {
     entry:     {
-      // default name is main also
-      main: resolve('src/main.js')
+      'error-page': resolve('src/pages/error'),
+      'item-page': resolve('src/pages/item'),
+      'itemsList-page': resolve('src/pages/itemsList'),
+      'main-page': resolve('src/pages/main'),
     },
     output:    {
       path:          resolve('dist'),
@@ -46,13 +48,21 @@ module.exports = (env) => { // env from CLI
       chunkFilename: extHash('[name]-[id]', 'js'),
     },
 
-    devServer: {
-      port:               8000,
-      host:               'localhost',
-      publicPath:         '/',
-      historyApiFallback: true,
-      contentBase:        resolve('dist'),
-      writeToDisk:        true
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        name: false,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/
+          },
+          common: {
+            minChunks: 2,
+            filename: extHash('common-[name]', 'js'),
+            reuseExistingChunk: true
+          }
+        }
+      }
     },
 
     // not eval to read compiled source in the screencast
@@ -72,9 +82,28 @@ module.exports = (env) => { // env from CLI
     plugins: [
       new WebpackNotifierPlugin(),
       new HtmlWebpackPlugin({
-        template:       resolve('src/template.html'),
-        filename:       resolve('dist/index.html'),
-        chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
+        inject: true,
+        template: resolve('src/template.html'),
+        filename: 'error.html',
+        chunks: ['error-page']
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: resolve('src/template.html'),
+        filename: 'index.html',
+        chunks: ['main-page']
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: resolve('src/template.html'),
+        filename: 'item.html',
+        chunks: ['item-page']
+      }),
+      new HtmlWebpackPlugin({
+        inject: true,
+        template: resolve('src/template.html'),
+        filename: 'items-list.html',
+        chunks: ['itemsList-page']
       }),
       new CleanWebpackPlugin([resolve('dist'), resolve('build')]),
       new CopyWebpackPlugin([{from: 'assets'  }]),

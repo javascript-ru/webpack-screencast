@@ -2,8 +2,10 @@ import renderTemplate from '../../utils/renderTemplate';
 import ItemsList from '../../components/itemsList';
 import template from './main.pug';
 import './main.css';
+import renderPage from '../../utils/renderPage';
+import '../../common';
 
-export default class {
+class MainPage {
   async render() {
     let allItems = await fetch('/items.json');
     allItems = await allItems.json();
@@ -15,7 +17,7 @@ export default class {
           text: 'Buy only from us, everything is free'
         },
         {
-          link: '/list',
+          link: '/items-list.html',
           text: 'See all frameworks'
         }
       ]
@@ -27,3 +29,5 @@ export default class {
     return elem;
   }
 }
+
+renderPage(MainPage);

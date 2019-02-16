@@ -1,6 +1,8 @@
 import ItemsList from '../../components/itemsList';
+import renderPage from '../../utils/renderPage';
+import '../../common';
 
-export default class {
+class ItemsListPage {
   async render() {
     let allItems = await fetch('/items.json');
     allItems = await allItems.json();
@@ -12,3 +14,5 @@ export default class {
     return elem;
   }
 }
+
+renderPage(ItemsListPage);

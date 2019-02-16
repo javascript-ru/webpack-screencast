@@ -1,11 +1,12 @@
-import router from 'lib/router';
 import renderTemplate from '../../utils/renderTemplate';
 import template from './item.pug';
 import './item.css';
+import renderPage from '../../utils/renderPage';
+import '../../common';
 
-export default class {
-  constructor(route) {
-    this.id = route.replace('item/', '');
+class ItemPage {
+  constructor() {
+    this.id = new URLSearchParams(window.location.search).get('id');
   }
 
   async render() {
@@ -14,7 +15,7 @@ export default class {
 
     const item = allItems.find(item => this.id === item.id);
     if (!item) {
-      router.notFoundHandler();
+      window.location.assign('/error.html');
       return;
     }
 
@@ -23,3 +24,5 @@ export default class {
     });
   }
 }
+
+renderPage(ItemPage);
