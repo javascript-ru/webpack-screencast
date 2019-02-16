@@ -13,9 +13,3 @@ router
   .addRoute(/^404\/?$/, renderPage('error', 404, 'Not found!'))
   .setNotFoundHandler(renderPage('error', 404, 'Not found!'))
   .listen();
-
-
-if (module.hot) {
-  module.hot.accept();
-  module.hot.dispose(() => router.route(true));
-}

@@ -13,9 +13,12 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-console": "off",
+        "no-case-declarations": "off",
         "indent": [
             "error",
-            2
+            2,
+            { "SwitchCase": 1 }
         ],
         "linebreak-style": [
             "error",
