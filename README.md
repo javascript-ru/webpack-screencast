@@ -27,7 +27,7 @@ npm install
 * Базовые параметры конфига:
   - entry, output, mode
 * Source maps: виды, использование нужной
-* `webpack-dev-server` - автопересборка, HMR (ветка hmr)
+* `webpack-dev-server` - автопересборка, HMR (ветка [hmr](https://github.com/javascript-ru/webpack-example/tree/hmr))
 * Длинное кеширование (Expires: max), `AssetsManifestPlugin`
 * Копирование статических файлов: `CopyWebpackPlugin`
 * Генерация HTML c `HtmlWebpackPlugin`.
@@ -35,12 +35,10 @@ npm install
 * Очистка перед сборкой: `CleanWebpackPlugin`
 * Передача параметров в JS: `DefinePlugin`
 * Оптимизация сборки: статистика, `IgnorePlugin` (на примере `moment.js`)
-* Динамический импорт `import(./${page})`, магические комменты
+* Динамический импорт `import(./${page})`, "магические" комментарии
 * Алиасы (короткий путь до `lib`)
 * CSS: `postcss-loader` (nested styles), `css-loader`, `style-loader`, `file-loader`/`url-loader`
 * Шаблоны с `pug-loader`
 * Babel для использования последних фич JS: `babel-loader`.
 * `MiniCssExtractPlugin`.
-* Несколько точек входа, автовыделение общего chunk (ветка `entries`)
-
-
+* Несколько точек входа, автовыделение общего chunk (ветка [entries](https://github.com/javascript-ru/webpack-example/tree/entries))
