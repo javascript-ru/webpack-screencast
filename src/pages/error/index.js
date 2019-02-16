@@ -1,6 +1,7 @@
 import renderTemplate from '../../utils/renderTemplate';
 import template from './error.pug';
 import './error.css';
+import router from 'lib/router';
 
 export default class {
   constructor(route, code, text) {
@@ -15,3 +16,12 @@ export default class {
     });
   }
 }
+
+/* eslint-disable no-undef */
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(() => {
+    router.refresh();
+  });
+}
+/* eslint-enable no-undef */

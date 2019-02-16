@@ -1,4 +1,5 @@
 import ItemsList from '../../components/itemsList';
+import router from 'lib/router';
 
 export default class {
   async render() {
@@ -12,3 +13,12 @@ export default class {
     return elem;
   }
 }
+
+/* eslint-disable no-undef */
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(() => {
+    router.refresh();
+  });
+}
+/* eslint-enable no-undef */
