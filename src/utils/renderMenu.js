@@ -13,8 +13,6 @@ export default async function renderMenu() {
   menuNode.appendChild(await menu.render());
 }
 
-/* eslint-disable no-undef */
 if (module.hot) {
   module.hot.accept('../components/menu', renderMenu);
 }
-/* eslint-enable no-undef */
