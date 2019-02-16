@@ -109,10 +109,12 @@ module.exports = (env) => { // env from CLI
       //  can use VisualizerPlugin to generate html or upload to service
       {
         apply(compiler) {
-          compiler.plugin("done", function(stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
-            stats = stats.toJson();
-            fs.writeFileSync(resolve('build/stats.json'), JSON.stringify(stats));
-          });
+          if (!developmentEnv) {
+            compiler.plugin("done", function(stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
+              stats = stats.toJson();
+              fs.writeFileSync(resolve('build/stats.json'), JSON.stringify(stats));
+            });
+          }
         }
       },
     ],

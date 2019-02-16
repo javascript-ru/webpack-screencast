@@ -5,8 +5,7 @@ import './menu.css';
 
 export default class {
   constructor(menuItems) {
-    moment.locale(LANG);
-    console.log(LANG)
+    moment.locale(LANG); // eslint-disable-line no-undef
     this.menuItems = menuItems;
   }
 
