@@ -6,10 +6,20 @@ import './styles.css';
 
 renderMenu();
 
-router
-  .addRoute(/^item\/(.*)/, renderPage('item'))
-  .addRoute(/^list\/?$/, renderPage('itemsList'))
-  .addRoute('', renderPage('main'))
-  .addRoute(/^404\/?$/, renderPage('error', 404, 'Not found!'))
-  .setNotFoundHandler(renderPage('error', 404, 'Not found!'))
-  .listen();
+renderPage('main')();
+
+// router
+//   .addRoute(/^item\/(.*)/, renderPage('item'))
+//   .addRoute(/^list\/?$/, renderPage('itemsList'))
+//   .addRoute('', renderPage('main'))
+//   .addRoute(/^404\/?$/, renderPage('error', 404, 'Not found!'))
+//   .setNotFoundHandler(renderPage('error', 404, 'Not found!'))
+//   .listen();
+
+if (module.hot) {
+  module.hot.accept();
+  module.hot.dispose(data => {
+    alert(data);
+    router.route(true);
+  });
+}  
