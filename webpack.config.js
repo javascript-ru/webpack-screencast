@@ -35,24 +35,24 @@ function extHash(name, ext, hash = '[hash]') {
 
 module.exports = (env) => { // env from CLI
   return {
-    entry:     {
+    entry: {
       // default name is main also
       main: resolve('src/main.js')
     },
-    output:    {
-      path:          resolve('dist'),
-      publicPath:    '/',
-      filename:   extHash('[name]', 'js'),
+    output: {
+      path: resolve('dist'),
+      publicPath: '/',
+      filename: extHash('[name]', 'js'),
       chunkFilename: extHash('[name]-[id]', 'js'),
     },
 
     devServer: {
-      port:               8000,
-      host:               'localhost',
-      publicPath:         '/',
+      port: 8000,
+      host: 'localhost',
+      publicPath: '/',
       historyApiFallback: true,
-      contentBase:        resolve('dist'),
-      writeToDisk:        true
+      contentBase: resolve('dist'),
+      writeToDisk: true
     },
 
     // not eval to read compiled source in the screencast
@@ -72,12 +72,12 @@ module.exports = (env) => { // env from CLI
     plugins: [
       new WebpackNotifierPlugin(),
       new HtmlWebpackPlugin({
-        template:       resolve('src/template.html'),
-        filename:       resolve('dist/index.html'),
+        template: 'src/template.html',
+        filename: 'index.html',
         chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
       }),
-      new CleanWebpackPlugin([resolve('dist'), resolve('build')]),
-      new CopyWebpackPlugin([{from: 'assets'  }]),
+      new CleanWebpackPlugin(['dist', 'build']),
+      new CopyWebpackPlugin([{ from: 'assets' }]),
       new webpack.DefinePlugin({
         LANG: JSON.stringify(lang),
       }),
@@ -110,9 +110,12 @@ module.exports = (env) => { // env from CLI
       {
         apply(compiler) {
           if (!developmentEnv) {
-            compiler.plugin("done", function(stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
+            compiler.plugin('done', function (stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
               stats = stats.toJson();
-              fs.writeFileSync(resolve('build/stats.json'), JSON.stringify(stats));
+              if (!fs.existsSync('./build')) {
+                fs.mkdirSync('./build');
+              }
+              fs.writeFileSync('./build/stats.json', JSON.stringify(stats));
             });
           }
         }
@@ -120,17 +123,17 @@ module.exports = (env) => { // env from CLI
     ],
     resolve: {
       extensions: ['.js'],
-      alias:      {
+      alias: {
         lib: resolve('lib'),
         utils: resolve('utils')
       }
     },
-    module:  {
+    module: {
       rules: [
         {
-          test:    /\.js$/,
+          test: /\.js$/,
           exclude: /node_modules/,
-          loader:  'babel-loader',
+          loader: 'babel-loader',
           options: {
             presets: [
               ['@babel/preset-env', {
@@ -149,27 +152,27 @@ module.exports = (env) => { // env from CLI
         },
         {
           test: /\.(gif|png|jpg)$/,
-          use:  [{
+          use: [{
             // also exists url-loader
-            loader:  'file-loader',
+            loader: 'file-loader',
             options: {
-              name:  extHash('[path][name]', '[ext]')
+              name: extHash('[path][name]', '[ext]')
             }
           }]
         },
         {
           test: /\.pug/,
-          use:  'pug-loader'
+          use: 'pug-loader'
         },
         {
           test: /\.css$/,
-          use:  [
+          use: [
             // {
             //   loader: MiniCssExtractPlugin.loader
             // },
             'style-loader',
             {
-              loader:  'css-loader',
+              loader: 'css-loader',
               options: {
                 // css loader needs to know how many loaders to apply to all imported files
                 // any @import'ed css first gets through loaders below (separately from other imported files)
@@ -179,7 +182,7 @@ module.exports = (env) => { // env from CLI
             {
               loader: 'postcss-loader',
               options: {
-                ident:   'postcss',
+                ident: 'postcss',
                 plugins: () => [
                   postcssPresetEnv({
                     features: {
