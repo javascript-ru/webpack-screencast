@@ -35,16 +35,16 @@ function extHash(name, ext, hash = '[hash]') {
 
 module.exports = (env) => { // env from CLI
   return {
-    entry:     {
+    entry: {
       'error-page': resolve('src/pages/error'),
       'item-page': resolve('src/pages/item'),
       'itemsList-page': resolve('src/pages/itemsList'),
       'main-page': resolve('src/pages/main'),
     },
-    output:    {
-      path:          resolve('dist'),
-      publicPath:    '/',
-      filename:   extHash('[name]', 'js'),
+    output: {
+      path: resolve('dist'),
+      publicPath: '/',
+      filename: extHash('[name]', 'js'),
       chunkFilename: extHash('[name]-[id]', 'js'),
     },
 
@@ -83,30 +83,30 @@ module.exports = (env) => { // env from CLI
       new WebpackNotifierPlugin(),
       new HtmlWebpackPlugin({
         inject: true,
-        template: resolve('src/template.html'),
+        template: 'src/template.html',
         filename: 'error.html',
         chunks: ['error-page']
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: resolve('src/template.html'),
+        template: 'src/template.html',
         filename: 'index.html',
         chunks: ['main-page']
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: resolve('src/template.html'),
+        template: 'src/template.html',
         filename: 'item.html',
         chunks: ['item-page']
       }),
       new HtmlWebpackPlugin({
         inject: true,
-        template: resolve('src/template.html'),
+        template: 'src/template.html',
         filename: 'items-list.html',
         chunks: ['itemsList-page']
       }),
-      new CleanWebpackPlugin([resolve('dist'), resolve('build')]),
-      new CopyWebpackPlugin([{from: 'assets'  }]),
+      new CleanWebpackPlugin(['dist', 'build']),
+      new CopyWebpackPlugin([{ from: 'assets' }]),
       new webpack.DefinePlugin({
         LANG: JSON.stringify(lang),
       }),
@@ -139,9 +139,12 @@ module.exports = (env) => { // env from CLI
       {
         apply(compiler) {
           if (!developmentEnv) {
-            compiler.plugin("done", function(stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
+            compiler.plugin('done', function (stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
               stats = stats.toJson();
-              fs.writeFileSync(resolve('build/stats.json'), JSON.stringify(stats));
+              if (!fs.existsSync('./build')) {
+                fs.mkdirSync('./build');
+              }
+              fs.writeFileSync('./build/stats.json', JSON.stringify(stats));
             });
           }
         }
@@ -149,16 +152,16 @@ module.exports = (env) => { // env from CLI
     ],
     resolve: {
       extensions: ['.js'],
-      alias:      {
+      alias: {
         lib: resolve('lib')
       }
     },
-    module:  {
+    module: {
       rules: [
         {
-          test:    /\.js$/,
+          test: /\.js$/,
           exclude: /node_modules/,
-          loader:  'babel-loader',
+          loader: 'babel-loader',
           options: {
             presets: [
               ['@babel/preset-env', {
@@ -177,27 +180,27 @@ module.exports = (env) => { // env from CLI
         },
         {
           test: /\.(gif|png|jpg)$/,
-          use:  [{
+          use: [{
             // also exists url-loader
-            loader:  'file-loader',
+            loader: 'file-loader',
             options: {
-              name:  extHash('[path][name]', '[ext]')
+              name: extHash('[path][name]', '[ext]')
             }
           }]
         },
         {
           test: /\.pug/,
-          use:  'pug-loader'
+          use: 'pug-loader'
         },
         {
           test: /\.css$/,
-          use:  [
+          use: [
             // {
             //   loader: MiniCssExtractPlugin.loader
             // },
             'style-loader',
             {
-              loader:  'css-loader',
+              loader: 'css-loader',
               options: {
                 // css loader needs to know how many loaders to apply to all imported files
                 // any @import'ed css first gets through loaders below (separately from other imported files)
@@ -207,7 +210,7 @@ module.exports = (env) => { // env from CLI
             {
               loader: 'postcss-loader',
               options: {
-                ident:   'postcss',
+                ident: 'postcss',
                 plugins: () => [
                   postcssPresetEnv({
                     features: {
