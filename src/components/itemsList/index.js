@@ -1,4 +1,4 @@
-import renderTemplate from '../../utils/renderTemplate';
+import renderTemplate from 'utils/renderTemplate';
 import template from './itemsList.pug';
 import './itemsList.css';
 import './item.css';

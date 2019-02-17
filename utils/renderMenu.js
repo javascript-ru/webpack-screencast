@@ -1,4 +1,4 @@
-import Menu from '../components/menu';
+import Menu from '../src/components/menu';
 
 const menuNode = document.querySelector('#menu');
 
@@ -14,5 +14,5 @@ export default async function renderMenu() {
 }
 
 if (module.hot) {
-  module.hot.accept('../components/menu', renderMenu);
+  module.hot.accept('../src/components/menu', renderMenu);
 }

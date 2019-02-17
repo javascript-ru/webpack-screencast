@@ -121,7 +121,8 @@ module.exports = (env) => { // env from CLI
     resolve: {
       extensions: ['.js'],
       alias:      {
-        lib: resolve('lib')
+        lib: resolve('lib'),
+        utils: resolve('utils')
       }
     },
     module:  {

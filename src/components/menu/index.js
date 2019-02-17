@@ -1,5 +1,5 @@
 import moment from 'moment';
-import renderTemplate from '../../utils/renderTemplate';
+import renderTemplate from 'utils/renderTemplate';
 import template from './menu.pug';
 import './menu.css';
 

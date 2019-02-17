@@ -1,25 +1,19 @@
 import '@babel/polyfill';
 import router from 'lib/router';
-import renderPage from './utils/renderPage';
-import renderMenu from './utils/renderMenu';
+import renderMenu from 'utils/renderMenu';
 import './styles.css';
 
 renderMenu();
 
-renderPage('main')();
-
-// router
-//   .addRoute(/^item\/(.*)/, renderPage('item'))
-//   .addRoute(/^list\/?$/, renderPage('itemsList'))
-//   .addRoute('', renderPage('main'))
-//   .addRoute(/^404\/?$/, renderPage('error', 404, 'Not found!'))
-//   .setNotFoundHandler(renderPage('error', 404, 'Not found!'))
-//   .listen();
+router
+  .addRoute(/^item\/(.*)/, 'item')
+  .addRoute(/^list\/?$/, 'itemsList')
+  .addRoute('', 'main')
+  .addRoute(/^404\/?$/, 'error')
+  .setNotFoundPage('error')
+  .listen();
 
 if (module.hot) {
   module.hot.accept();
-  module.hot.dispose(data => {
-    alert(data);
-    router.route(true);
-  });
-}  
+  module.hot.dispose(() => router.route());
+}
