@@ -4,21 +4,15 @@
   padding: 10px;
   margin: 10px;
   border: 1px solid black;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
+  text-align: center;
 
-  & .text {
-    margin: 0;
-  }
-
-  & > img {
+  & img {
     height: 120px;
     width: 120px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
-  & > a {
+  & a {
     text-decoration: underline;
     color: black;
   }

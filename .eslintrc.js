@@ -3,6 +3,9 @@ module.exports = {
         "browser": true,
         "es6": true
     },
+    "globals": {
+        "module": true
+    },
     "extends": "eslint:recommended",
     "parser": "babel-eslint",
     "parserOptions": {
@@ -10,9 +13,12 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-console": "off",
+        "no-case-declarations": "off",
         "indent": [
             "error",
-            2
+            2,
+            { "SwitchCase": 1 }
         ],
         "linebreak-style": [
             "error",

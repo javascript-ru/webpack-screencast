@@ -1,8 +1,8 @@
 .items-list
   each item in items
     .item
-      img(src=`/items/${item.id}.png`)
       a(href=`/item/${item.id}`)
+        img(src=`/items/${item.id}.png`)
         .item-label= item.label
       .item-price
         if item.price

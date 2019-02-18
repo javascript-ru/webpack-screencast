@@ -1,4 +1,6 @@
-import Menu from '../components/menu';
+import Menu from '../src/components/menu';
+
+const menuNode = document.querySelector('#menu');
 
 export default async function renderMenu() {
   const menuItems = [
@@ -6,7 +8,11 @@ export default async function renderMenu() {
     {route: '/list', label: 'List'}
   ];
 
-  const menuNode = document.querySelector('#menu');
   const menu = new Menu(menuItems);
+  menuNode.innerHTML = '';
   menuNode.appendChild(await menu.render());
+}
+
+if (module.hot) {
+  module.hot.accept('../src/components/menu', renderMenu);
 }

@@ -1,5 +1,5 @@
 import router from 'lib/router';
-import renderTemplate from '../../utils/renderTemplate';
+import renderTemplate from 'utils/renderTemplate';
 import template from './item.pug';
 import './item.css';
 
