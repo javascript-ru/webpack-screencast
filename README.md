@@ -1,26 +1,4 @@
-# Пример проекта для скринкаста по Webpack
-
-## Установка и запуск
-
-Сначала клонировать и поставить модули:
-```bash
-git clone https://github.com/javascript-ru/webpack-example
-cd webpack-example
-npm install
-```
-
-Основные команды:
-
-* `npm run dev` - dev-сборка: автопересборка и сервер на <http://localhost:8000/>;
-* `npm run serve` - только сервер (отдача файлов) из директории `dist`;
-* `npm run build` - production-сборка в директорию `dist` (можно в другом окне параллельно serve);
-
-Вспомогательные команды:
-
-* `npm run watch` = `npm run dev` + авторестарт при изменении конфига webpack;
-* `npm run lint` - проверка кода ESLint.
-
-## Возможности
+# Скринкаст по Webpack
 
 На примере этого проекта рассказываем:
 
@@ -42,3 +20,29 @@ npm install
 * Babel для использования последних фич JS: `babel-loader`.
 * `MiniCssExtractPlugin`.
 * Несколько точек входа, автовыделение общего chunk (ветка [entries](https://github.com/javascript-ru/webpack-example/tree/entries))
+
+**Ничего не забыли?**
+
+## Установка и запуск
+
+Сначала клонировать и поставить модули:
+```bash
+git clone https://github.com/javascript-ru/webpack-screencast
+cd webpack-screencast
+npm install
+```
+
+Запустить:
+```bash
+npm run dev
+```
+
+Теперь можно идти на <http://localhost:8000>, запущено одностраничное приложение с динамическим роутингом, шаблонами, js/css-модулями и т.п (см выше). По дизайну позже причешем.
+
+Также есть команды:
+
+* `npm run serve` - только сервер (отдача файлов) из директории `dist`, без сборки;
+* `npm run build` - production-сборка в директорию `dist` (без сервера, можно в другом окне параллельно `npm run serve`);
+* `npm run watch` = `npm run dev` + авторестарт при изменении конфига webpack;
+* `npm run lint` - проверка кода ESLint.
+
