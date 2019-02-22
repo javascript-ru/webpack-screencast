@@ -19,7 +19,7 @@
 * Шаблоны с `pug-loader`
 * Babel для использования последних фич JS: `babel-loader`.
 * `MiniCssExtractPlugin`.
-* Несколько точек входа, автовыделение общего chunk (ветка [entries](https://github.com/javascript-ru/webpack-example/tree/entries))
+* Несколько точек входа, автовыделение общего chunk `SplitChunksPlugin` (ветка [entries](https://github.com/javascript-ru/webpack-example/tree/entries))
 
 **Какие-то темы упустили? Вопросы/предложения – просим [new issue](https://github.com/javascript-ru/webpack-screencast/issues/new)! ♡**
 
