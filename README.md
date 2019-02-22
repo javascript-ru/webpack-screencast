@@ -21,7 +21,7 @@
 * `MiniCssExtractPlugin`.
 * Несколько точек входа, автовыделение общего chunk (ветка [entries](https://github.com/javascript-ru/webpack-example/tree/entries))
 
-**Ничего не забыли?**
+**Какие-то темы упустили? Вопросы/предложения – просим [new issue](https://github.com/javascript-ru/webpack-screencast/issues/new)**
 
 ## Установка и запуск
 
