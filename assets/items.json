@@ -3,30 +3,30 @@
     "id": "jquery",
     "label": "jQuery",
     "price": 0,
-    "description": "jQuery — библиотека JavaScript, фокусирующаяся на взаимодействии JavaScript и HTML."
+    "description": "jQuery is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation, as well as event handling, CSS animation, and Ajax. It is free, open-source software using the permissive MIT License. Web analysis indicates that it is the most widely deployed JavaScript library by a large margin."
   },
   {
     "id": "react",
     "label": "React",
     "price": 0,
-    "description": "React — JavaScript-библиотека с открытым исходным кодом для разработки пользовательских интерфейсов."
+    "description": "React (also known as React.js or ReactJS) is a JavaScript library for building user interfaces. It is maintained by Facebook and a community of individual developers and companies."
   },
   {
     "id": "angular",
     "label": "Angular",
     "price": 0,
-    "description": "Angular - это открытая и свободная платформа для разработки веб-приложений, написанная на языке TypeScript, разрабатываемая командой из компании Google, а также сообществом разработчиков из различных компаний."
+    "description": "Angular (commonly referred to as \"Angular 2+\" or \"Angular v2 and above\") is a TypeScript-based open-source full-stack web application framework led by the Angular Team at Google and by a community of individuals and corporations. Angular is a complete rewrite from the same team that built AngularJS."
   },
   {
     "id": "backbone",
     "label": "Backbone",
     "price": 0,
-    "description": "Backbone — JavaScript-библиотека, основанная на шаблоне проектирования Model-View-Presenter, предназначена для разработки веб-приложений с поддержкой RESTful JSON интерфейса."
+    "description": "Backbone.js is a JavaScript library with a RESTful JSON interface and is based on the Model–view–presenter (MVP) application design paradigm. Backbone is known for being lightweight, as its only hard dependency is on one JavaScript library, Underscore.js, plus jQuery for use of the full library."
   },
   {
     "id": "vue",
     "label": "Vue",
     "price": 0,
-    "description": "Vue.js — JavaScript-фреймворк с открытым исходным кодом для создания пользовательских интерфейсов."
+    "description": "Vue.js is an open-source JavaScript framework for building user interfaces and single-page applications."
   }
 ]

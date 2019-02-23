@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const cssnano = require('cssnano');
 const webpack = require('webpack');
 const postcssPresetEnv = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -183,15 +184,23 @@ module.exports = (env) => { // env from CLI
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
-                plugins: () => [
-                  postcssPresetEnv({
-                    features: {
-                      'nesting-rules': true,
-                      // https://github.com/postcss/postcss-custom-properties/issues/167
-                      'custom-properties': true // css vars
-                    }
-                  })
-                ]
+                plugins: () => {
+                  const plugins = [
+                    postcssPresetEnv({
+                      features: {
+                        'nesting-rules': true,
+                        // https://github.com/postcss/postcss-custom-properties/issues/167
+                        'custom-properties': true // css vars
+                      }
+                    })
+                  ];
+                  if (!developmentEnv) {
+                    plugins.push(cssnano({
+                      preset: 'default'
+                    }));
+                  }
+                  return plugins;
+                }
               }
             }
           ]
