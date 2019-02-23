@@ -195,6 +195,7 @@ module.exports = (env) => { // env from CLI
                     })
                   ];
                   if (!developmentEnv) {
+                    // alternative - optimize-css-assets-webpack-plugin
                     plugins.push(cssnano({
                       preset: 'default'
                     }));
