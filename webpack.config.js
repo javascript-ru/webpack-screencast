@@ -1,230 +1,54 @@
-// Multi-entry сборка отдельно
-// Long-term caching отдельно
-// MiniCssExtractPlugin отдельно
-
-// +DevServer
-// +HtmlWebpackPlugin
-// +CleanWebpackPlugin
-// +dynamic imports
-// +webpack-assets-manifest, cache
-// +MiniCssExtractPlugin
-// +IgnorePlugin
-
-const fs = require('fs');
-const path = require('path');
 const webpack = require('webpack');
-const postcssPresetEnv = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const WebpackNotifierPlugin = require('webpack-notifier');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
+const { commonConfig, resolve } = require('./webpack-common.config');
 
-const developmentEnv = process.env.NODE_ENV === 'development';
-
-const lang = 'en';
-
-function resolve(relPath) {
-  return path.resolve(__dirname, relPath);
-}
-
-function extHash(name, ext, hash = '[hash]') {
-  return developmentEnv ? `${name}.${ext}?${hash}` : `${name}.${hash}.${ext}`;
-}
-
-module.exports = (env) => { // env from CLI
-  return {
-    entry: {
-      'error-page': resolve('src/pages/error'),
-      'item-page': resolve('src/pages/item'),
-      'itemsList-page': resolve('src/pages/itemsList'),
-      'main-page': resolve('src/pages/main'),
-    },
-    output: {
-      path: resolve('dist'),
-      publicPath: '/',
-      filename: extHash('[name]', 'js'),
-      chunkFilename: extHash('[name]-[id]', 'js'),
-    },
-
-    optimization: {
-      splitChunks: {
-        chunks: 'all',
-        name: false,
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/
-          },
-          common: {
-            minChunks: 2,
-            filename: extHash('common-[name]', 'js'),
-            reuseExistingChunk: true
-          }
-        }
-      }
-    },
-
-    // not eval to read compiled source in the screencast
-    devtool: developmentEnv ? 'inline-cheap-module-source-map' : false,
-    mode: developmentEnv ? 'development' : 'production',
-
-    /*
-    // if we're not using devserver
-    watch: developmentEnv,
-
-    watchOptions: {
-      aggregateTimeout: 30,
-      ignored:          /node_modules/
-    },
-     */
-
-    plugins: [
-      new WebpackNotifierPlugin(),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: 'src/template.html',
-        filename: 'error.html',
-        chunks: ['error-page']
-      }),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: 'src/template.html',
-        filename: 'index.html',
-        chunks: ['main-page']
-      }),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: 'src/template.html',
-        filename: 'item.html',
-        chunks: ['item-page']
-      }),
-      new HtmlWebpackPlugin({
-        inject: true,
-        template: 'src/template.html',
-        filename: 'items-list.html',
-        chunks: ['itemsList-page']
-      }),
-      new CleanWebpackPlugin(['dist', 'build']),
-      new CopyWebpackPlugin([{ from: 'assets' }]),
-      new webpack.DefinePlugin({
-        LANG: JSON.stringify(lang),
-      }),
-      new AssetsManifestPlugin({
-        // for LTS
-        // move it out of public root (not needed there)
-        output: '../build/manifest.json'
-      }),
-      // new MiniCssExtractPlugin({
-      //   filename:   extHash('[name]', 'css'),
-      //   chunkFilename: extHash('[name]-[id]', 'css')
-      // }),
-      // ignore all moment locales except current lang
-      new webpack.IgnorePlugin({
-        checkResource(request, context) {
-          // locale requires that file back from it, need to keep it
-          if (request === '../moment') return false; // don't ignore this
-          // only ignore locales
-          if (!context.endsWith(path.join('node_modules', 'moment', 'locale'))) return false;
-          // for "en" ignore all locale files, no need
-          if (lang === 'en') return true;
-          // don't ignore current locale ./ru ./ru.js
-          if (request !== `./${lang}.js` && request !== `./${lang}`) return true;
-        },
-      }),
-
-      // webpack visualizer only shows modules (obvious which one is not needed)
-      // webpack analyzer shows which modules requires which modules
-      //  can use VisualizerPlugin to generate html or upload to service
-      {
-        apply(compiler) {
-          if (!developmentEnv) {
-            compiler.plugin('done', function (stats) { // https://github.com/FormidableLabs/webpack-stats-plugin
-              stats = stats.toJson();
-              if (!fs.existsSync('./build')) {
-                fs.mkdirSync('./build');
-              }
-              fs.writeFileSync('./build/stats.json', JSON.stringify(stats));
-            });
-          }
-        }
-      },
-    ],
-    resolve: {
-      extensions: ['.js'],
-      alias: {
-        lib: resolve('lib')
-      }
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', {
-                targets: {
-                  browsers: '> 3%'
-                  // browsers: '> 3%, ie 11' // ie 11 transpiles classes
-                }
-              }]
-            ],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-syntax-dynamic-import'
-            ]
-          }
-        },
-        {
-          test: /\.(gif|png|jpg)$/,
-          use: [{
-            // also exists url-loader
-            loader: 'file-loader',
-            options: {
-              name: extHash('[path][name]', '[ext]')
-            }
-          }]
-        },
-        {
-          test: /\.pug/,
-          use: 'pug-loader'
-        },
-        {
-          test: /\.css$/,
-          use: [
-            // {
-            //   loader: MiniCssExtractPlugin.loader
-            // },
-            'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                // css loader needs to know how many loaders to apply to all imported files
-                // any @import'ed css first gets through loaders below (separately from other imported files)
-                importLoaders: 1
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  postcssPresetEnv({
-                    features: {
-                      'nesting-rules': true,
-                      // https://github.com/postcss/postcss-custom-properties/issues/167
-                      'custom-properties': true // css vars
-                    }
-                  })
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    }
-  };
+module.exports = {
+  ...commonConfig,
+  entry: {
+    'error_page': resolve('src/pages/error'),
+    'item_page': resolve('src/pages/item'),
+    'itemsList_page': resolve('src/pages/itemsList'),
+    'main_page': resolve('src/pages/main'),
+  },
+  output: {
+    path: resolve('dist'),
+    publicPath: '/',
+    filename: '[name].js'
+  },
+  plugins: [
+    ...commonConfig.plugins,
+    new AssetsManifestPlugin({
+      output: '../build/manifest.json'
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'src/template.html',
+      filename: 'error.html',
+      chunks: ['error_page']
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'src/template.html',
+      filename: 'index.html',
+      chunks: ['main_page']
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'src/template.html',
+      filename: 'item.html',
+      chunks: ['item_page']
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: 'src/template.html',
+      filename: 'items-list.html',
+      chunks: ['itemsList_page']
+    }),
+    new CopyWebpackPlugin([{ from: 'assets' }]),
+    new webpack.DllReferencePlugin({
+      manifest: resolve('dist/dll/common-manifest.json')
+    })
+  ]
 };
