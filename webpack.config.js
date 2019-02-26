@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const cssnano = require('cssnano');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -59,6 +60,24 @@ module.exports = (env) => { // env from CLI
     // not eval to read compiled source in the screencast
     devtool: developmentEnv ? 'inline-cheap-module-source-map' : false,
     mode: developmentEnv ? 'development' : 'production',
+
+    optimization: developmentEnv ? {} : {
+      minimizer: [
+        // https://davidwalsh.name/compress-uglify
+        // https://webpack.js.org/plugins/terser-webpack-plugin/
+        new TerserPlugin({
+          terserOptions: {
+            compress: {
+              drop_console: true,
+              unused: true,
+              booleans: true,
+              join_vars: true,
+              warnings: true
+            }
+          }
+        })
+      ],
+    },
 
     /*
     // if we're not using devserver

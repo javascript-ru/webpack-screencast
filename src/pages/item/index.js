@@ -9,6 +9,7 @@ export default class {
   }
 
   async render() {
+    console.log('render item page');
     let allItems = await fetch('/items.json');
     allItems = await allItems.json();
 

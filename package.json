@@ -41,6 +41,7 @@
     "pug": "2.0.3",
     "pug-loader": "2.4.0",
     "style-loader": "0.23.1",
+    "terser-webpack-plugin": "1.2.3",
     "url-loader": "1.1.2",
     "webpack": "4.28.4",
     "webpack-assets-manifest": "3.1.1",

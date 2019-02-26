@@ -10,6 +10,7 @@ export default class {
   }
 
   async render() {
+    console.log('render itemsList component');
     return renderTemplate(template, {
       items: this.menuItems,
       date: moment().format('DD MMMM YYYY')

@@ -4,7 +4,7 @@ import './main.css';
 
 export default class {
   async render() {
-
+    console.log('render main page');
     return renderTemplate(template, {
       title: 'Framework shop!',
       banners: [
