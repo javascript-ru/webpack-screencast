@@ -65,6 +65,7 @@ module.exports = (env) => { // env from CLI
       minimizer: [
         // https://davidwalsh.name/compress-uglify
         // https://webpack.js.org/plugins/terser-webpack-plugin/
+        // default webpack config: https://github.com/webpack/webpack/blob/master/lib/WebpackOptionsDefaulter.js#L298-L314
         new TerserPlugin({
           terserOptions: {
             compress: {
