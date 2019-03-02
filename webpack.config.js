@@ -35,13 +35,17 @@ function extHash(name, ext, hash = '[hash]') {
   return developmentEnv ? `${name}.${ext}?${hash}` : `${name}.${hash}.${ext}`;
 }
 
+// default options (zero-config): https://github.com/webpack/webpack/blob/master/lib/WebpackOptionsDefaulter.js
+// EntryOptions - https://github.com/webpack/webpack/blob/master/lib/EntryOptionPlugin.js
+
 module.exports = (env) => { // env from CLI
   return {
     entry: {
-      // default name is main also
+      // default entry file - './src/index.js', default entry name - 'main'
       main: resolve('src/main.js')
     },
     output: {
+      // default output - './dist/main.js'
       path: resolve('dist'),
       publicPath: '/',
       filename: extHash('[name]', 'js'),
