@@ -2,6 +2,7 @@ import '@babel/polyfill';
 import router from 'lib/router';
 import renderMenu from 'utils/renderMenu';
 import './styles.css';
+import {usefulUtil} from '../utils/unusedUtil';
 
 renderMenu();
 
@@ -17,3 +18,5 @@ if (module.hot) {
   module.hot.accept();
   module.hot.dispose(() => router.route());
 }
+
+usefulUtil();

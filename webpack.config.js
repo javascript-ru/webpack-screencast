@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const cssnano = require('cssnano');
 const webpack = require('webpack');
+const HappyPack = require('happypack');
 const TerserPlugin = require('terser-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -22,6 +23,7 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const AssetsManifestPlugin = require('webpack-assets-manifest');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 const developmentEnv = process.env.NODE_ENV === 'development';
 
@@ -58,14 +60,16 @@ module.exports = (env) => { // env from CLI
       publicPath: '/',
       historyApiFallback: true,
       contentBase: resolve('dist'),
-      writeToDisk: true
+      writeToDisk: true // this prop uses just for demonstration
     },
 
     // not eval to read compiled source in the screencast
     devtool: developmentEnv ? 'inline-cheap-module-source-map' : false,
     mode: developmentEnv ? 'development' : 'production',
 
-    optimization: developmentEnv ? {} : {
+    optimization: developmentEnv ? {
+      usedExports: true
+    } : {
       minimizer: [
         // https://davidwalsh.name/compress-uglify
         // https://webpack.js.org/plugins/terser-webpack-plugin/
@@ -145,6 +149,36 @@ module.exports = (env) => { // env from CLI
           }
         }
       },
+      // https://github.com/amireh/happypack
+      // https://github.com/webpack-contrib/thread-loader
+      new HappyPack({
+        id: 'js',
+        threads: 2,
+        loaders: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                ['@babel/preset-env', {
+                  targets: {
+                    browsers: '> 3%'
+                  }
+                }]
+              ],
+              plugins: [
+                '@babel/plugin-proposal-object-rest-spread',
+                '@babel/plugin-proposal-class-properties',
+                '@babel/plugin-syntax-dynamic-import'
+              ]
+            }
+          }
+        ]
+      }),
+      // https://github.com/mzgoddard/hard-source-webpack-plugin
+      // https://github.com/webpack-contrib/cache-loader
+      new HardSourceWebpackPlugin({
+        cacheDirectory: resolve('.cache')
+      })
     ],
     resolve: {
       extensions: ['.js'],
@@ -155,25 +189,11 @@ module.exports = (env) => { // env from CLI
     },
     module: {
       rules: [
+        // you can use svgo-loader for .svg optimization
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              ['@babel/preset-env', {
-                targets: {
-                  browsers: '> 3%'
-                  // browsers: '> 3%, ie 11' // ie 11 transpiles classes
-                }
-              }]
-            ],
-            plugins: [
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-syntax-dynamic-import'
-            ]
-          }
+          use: 'happypack/loader?id=js'
         },
         {
           test: /\.(gif|png|jpg)$/,
@@ -192,15 +212,10 @@ module.exports = (env) => { // env from CLI
         {
           test: /\.css$/,
           use: [
-            // {
-            //   loader: MiniCssExtractPlugin.loader
-            // },
             'style-loader',
             {
               loader: 'css-loader',
               options: {
-                // css loader needs to know how many loaders to apply to all imported files
-                // any @import'ed css first gets through loaders below (separately from other imported files)
                 importLoaders: 1
               }
             },
@@ -213,13 +228,11 @@ module.exports = (env) => { // env from CLI
                     postcssPresetEnv({
                       features: {
                         'nesting-rules': true,
-                        // https://github.com/postcss/postcss-custom-properties/issues/167
-                        'custom-properties': true // css vars
+                        'custom-properties': true
                       }
                     })
                   ];
                   if (!developmentEnv) {
-                    // alternative - optimize-css-assets-webpack-plugin
                     plugins.push(cssnano({
                       preset: 'default'
                     }));
