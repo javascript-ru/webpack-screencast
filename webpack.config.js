@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const cssnano = require('cssnano');
 const webpack = require('webpack');
+const postCssImport = require('postcss-import');
 const TerserPlugin = require('terser-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -192,9 +193,7 @@ module.exports = (env) => { // env from CLI
         {
           test: /\.css$/,
           use: [
-            // {
-            //   loader: MiniCssExtractPlugin.loader
-            // },
+            // MiniCssExtractPlugin.loader,
             'style-loader',
             {
               loader: 'css-loader',
@@ -210,6 +209,7 @@ module.exports = (env) => { // env from CLI
                 ident: 'postcss',
                 plugins: () => {
                   const plugins = [
+                    postCssImport(),
                     postcssPresetEnv({
                       features: {
                         'nesting-rules': true,
