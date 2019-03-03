@@ -147,6 +147,14 @@ module.exports = (env) => { // env from CLI
           }
         }
       },
+      {
+        apply() {
+          // fallback for copy-plugin
+          if (!fs.existsSync('img')) {
+            fs.mkdirSync('img');
+          }
+        }
+      }
     ],
     resolve: {
       extensions: ['.js'],
@@ -163,11 +171,15 @@ module.exports = (env) => { // env from CLI
           loader: 'babel-loader',
           options: {
             presets: [
+              // babel configuration https://medium.com/@R1ZENX/92c1bd69df3d
               ['@babel/preset-env', {
                 targets: {
                   browsers: '> 3%'
                   // browsers: '> 3%, ie 11' // ie 11 transpiles classes
-                }
+                },
+                modules: false,
+                loose: true,
+                useBuiltIns: 'entry'
               }]
             ],
             plugins: [
