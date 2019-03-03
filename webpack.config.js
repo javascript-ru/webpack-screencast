@@ -14,6 +14,7 @@ const fs = require('fs');
 const path = require('path');
 const cssnano = require('cssnano');
 const webpack = require('webpack');
+const postCssUrl = require('postcss-url');
 const postCssImport = require('postcss-import');
 const TerserPlugin = require('terser-webpack-plugin');
 const postcssPresetEnv = require('postcss-preset-env');
@@ -102,8 +103,8 @@ module.exports = (env) => { // env from CLI
         filename: 'index.html',
         chunksSortMode: 'none' // temporary fix, https://github.com/facebook/create-react-app/issues/4667
       }),
-      new CleanWebpackPlugin(['dist', 'build']),
-      new CopyWebpackPlugin([{ from: 'assets' }]),
+      new CleanWebpackPlugin(['dist', 'build', 'img']),
+      new CopyWebpackPlugin([{ from: 'assets' }, { from: 'img', to: 'img' }]),
       new webpack.DefinePlugin({
         LANG: JSON.stringify(lang),
       }),
@@ -195,20 +196,26 @@ module.exports = (env) => { // env from CLI
           use: [
             // MiniCssExtractPlugin.loader,
             'style-loader',
-            {
-              loader: 'css-loader',
-              options: {
-                // css loader needs to know how many loaders to apply to all imported files
-                // any @import'ed css first gets through loaders below (separately from other imported files)
-                importLoaders: 1
-              }
-            },
+            // css-loader is useless if we are using postcss-url, https://github.com/javascript-ru/webpack-screencast/issues/11
+            // {
+            //   loader: 'css-loader',
+            //   options: {
+            //     // css loader needs to know how many loaders to apply to all imported files
+            //     // any @import'ed css first gets through loaders below (separately from other imported files)
+            //     importLoaders: 1
+            //   }
+            // },
             {
               loader: 'postcss-loader',
               options: {
                 ident: 'postcss',
                 plugins: () => {
                   const plugins = [
+                    postCssUrl({
+                      url: 'copy',
+                      assetsPath: 'img',
+                      useHash: true
+                    }),
                     postCssImport(),
                     postcssPresetEnv({
                       features: {
