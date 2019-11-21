@@ -7,7 +7,7 @@
     padding: 10px;
     text-align: center;
   }
-  
+
   & .item-image {
     padding: 10px;
     margin: auto;
@@ -16,3 +16,4 @@
     display: flex;
   }
 }
+
